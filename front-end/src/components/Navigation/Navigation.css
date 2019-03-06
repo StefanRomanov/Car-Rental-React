@@ -1,0 +1,6 @@
+ul li{
+    display: inline-block;
+}
+.active{
+    color:deepskyblue;
+}

@@ -50,8 +50,24 @@ class RentSearch extends Component {
             <div className="rent-search">
                 <form onSubmit={this.onSubmit}>
                     <h1>Find available cars</h1>
-                    <Input onChange={this.onChange} type="date" name="startDate" label="Start date" required={true}/>
-                    <Input onChange={this.onChange} type="date" name="endDate" label="Date of return" required={true}/>
+                    <Input
+                        onChange={this.onChange}
+                        type="date" name="startDate"
+                        label="Start date"
+                        required={true}
+                        placeholder="Enter start date"
+                        onfocus={() => {this.type='date'}}
+                        onblur={() => {this.type='text'}}
+                    />
+                    <Input
+                        onChange={this.onChange}
+                        type="date" name="endDate"
+                        label="Date of return"
+                        required={true}
+                        placeholder="Enter return date"
+                        onfocus={() => {this.type='date'}}
+                        onblur={() => {this.type='text'}}
+                    />
                     <button type="submit">Find available cars</button>
                 </form>
                 {

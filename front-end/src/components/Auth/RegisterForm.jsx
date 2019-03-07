@@ -10,16 +10,17 @@ class RegisterForm extends Component {
         this.state = {
             username: null,
             password: null,
-            email: null
+            email: null,
+            repeatPassword: null
         };
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
-    onChange(e){
+    onChange(e) {
         this.setState({
-            [e.target.name] : e.target.value
+            [e.target.name]: e.target.value
         });
     }
 
@@ -30,12 +31,24 @@ class RegisterForm extends Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit}>
-                <Input onChange={this.onChange} name="username" label="Username" type="text"/>
-                <Input onChange={this.onChange} name="email" label="Email" type="email"/>
-                <Input onChange={this.onChange} name="password" label="Password" type="password"/>
-                <button type="submit">Register</button>
-            </form>
+            <div className='container'>
+                <div className='row space-top justify-content-center'>
+                    <div className='col-md-4 '>
+                        <h1>Register</h1>
+                    </div>
+                </div>
+                <form onSubmit={this.onSubmit}>
+                    <div className='row space-top justify-content-center'>
+                        <div className='col-md-4'>
+                            <Input onChange={this.onChange} name="username" label="Username" type="text" value={this.state.username}/>
+                            <Input onChange={this.onChange} name="email" label="Email" type="email" value={this.state.email}/>
+                            <Input onChange={this.onChange} name="password" label="Password" type="password" value={this.state.password}/>
+                            <Input onChange={this.onChange} name="repeatPassword" label="Repeat Password" type="password" value={this.state.repeatPassword}/>
+                            <input type="submit" className="btn btn-primary" value="Register"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
         )
     }
 }

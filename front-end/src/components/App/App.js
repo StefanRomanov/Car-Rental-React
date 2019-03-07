@@ -37,7 +37,7 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
+            <div className="container-fluid">
                 <BrowserRouter>
                     <Fragment>
                         <Navigation logout={this.logout}/>

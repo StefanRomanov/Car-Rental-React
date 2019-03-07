@@ -9,9 +9,9 @@ class Footer extends Component {
 
     render() {
         return (
-            <div className="footer">
-                <h1>Footer, About, Contacts, 2019</h1>
-            </div>
+            <footer className="footer-copyright text-center fixed-bottom default-color">
+                &copy; Rento, 2019
+            </footer>
         )
     }
 

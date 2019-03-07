@@ -9,9 +9,10 @@ class Input extends Component {
 
     render() {
         return (
-            <div>
-                <label  htmlFor={this.props.name}>{this.props.label}</label>
+            <div className='form-group'>
+                <label className='form-control-label'  htmlFor={this.props.name}>{this.props.label}</label>
                 <input
+                    className='form-control'
                     onChange={this.props.onChange}
                     type={this.props.type}
                     name={this.props.name}
@@ -20,7 +21,10 @@ class Input extends Component {
                     disabled={this.props.disabled}
                     placeholder={this.props.placeholder}
                     value={this.props.value}
-                    required={this.props.required}/>
+                    required={this.props.required}
+                    onFocus={this.props.onfocus}
+                    onBlur={this.props.onblur}
+                />
             </div>
         )
     }

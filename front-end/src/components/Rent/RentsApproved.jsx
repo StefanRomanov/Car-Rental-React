@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import Rent from "./Rent";
-import SearchInput from "../Generic/SearchInput";
 import fetcher from "../../data/fetcher";
 import config from "../../config/server-config";
-import Car from "../Car/Cars";
 
 
 class RentsApproved extends Component {

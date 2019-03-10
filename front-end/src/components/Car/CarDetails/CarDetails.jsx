@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
-import fetcher from "../../../data/fetcher";
-import config from "../../../config/server-config";
-import {NavLink} from "react-router-dom";
+import services from '../../../services'
+import {Link} from "react-router-dom";
+import Loading from "../../Generic/Loading";
+import CarInformation from "./CarInformation";
 
 
 class CarDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoaded : false,
+            isLoaded: false,
             id: null,
             brand: null,
             model: null,
-            power: null,
+            count: null,
             color: null,
             description: null,
             imageUrl: null,
@@ -24,7 +25,7 @@ class CarDetails extends Component {
     componentDidMount() {
         const id = this.props.match.params.id;
 
-        fetcher.get(config.SERVER_PATH + '/cars/' + id)
+        services.carService.getCarById(id)
             .then(data => {
                 this.setState({
                     isLoaded: true,
@@ -38,26 +39,12 @@ class CarDetails extends Component {
 
 
     render() {
-        if(!this.state.isLoaded){
-            return <h1>Loading...</h1>
+        if (!this.state.isLoaded) {
+            return <Loading/>
         }
 
         return (
-            <div className="home">
-                <h1>{this.state.brand}</h1>
-                <h2>{this.state.model}</h2>
-                <img src={this.state.imageUrl} alt=""/>
-                <h3>{this.state.pricePerDay}</h3>
-                <h4>{this.state.power}</h4>
-                <div>
-                    <p>{this.state.description}</p>
-                </div>
-                <div>
-                    <NavLink to={"/cars/details/" + this.state.id}>Details</NavLink>
-                    <NavLink to={"/cars/edit/" + this.state.id}>Edit</NavLink>
-                    <NavLink to={"/cars/delete/" + this.state.id}>Delete</NavLink>
-                </div>
-            </div>
+            <CarInformation data={this.state}/>
         )
     }
 

@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import Input from '../Generic/Input';
-import fetcher from "../../data/fetcher";
-import config from "../../config/server-config";
 import Car from "../Car/Car";
+import services from '../../services'
 
 class RentSearch extends Component {
     constructor(props) {
@@ -32,7 +31,7 @@ class RentSearch extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        fetcher.post(config.SERVER_PATH + "/cars/available", this.state.form)
+        services.carService.findAvailableCars(this.state.form)
             .then(data => {
                 this.setState({
                     data: data.entity,

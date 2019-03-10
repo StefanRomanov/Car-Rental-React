@@ -1,7 +1,9 @@
 package com.server.domain.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "cars")
@@ -9,15 +11,16 @@ public class Car extends BaseEntity{
 
     private String brand;
     private String model;
-    private Integer power;
     private String color;
     private String description;
     private String imageUrl;
     private Double litersPerHundredKilometers;
     private Double pricePerDay;
     private Integer count;
+    private Set<Rent> activeRents;
 
     public Car() {
+        this.activeRents = new HashSet<>();
     }
 
     public String getBrand() {
@@ -34,14 +37,6 @@ public class Car extends BaseEntity{
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public Integer getPower() {
-        return power;
-    }
-
-    public void setPower(Integer power) {
-        this.power = power;
     }
 
     public String getDescription() {
@@ -90,5 +85,25 @@ public class Car extends BaseEntity{
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    @OneToMany(mappedBy = "car")
+    public Set<Rent> getActiveRents() {
+        return activeRents;
+    }
+
+    public void setActiveRents(Set<Rent> activeRents) {
+        this.activeRents = activeRents;
+    }
+
+    public boolean isAvailable(LocalDate startDate, LocalDate endDate){
+        long rents = this.getActiveRents()
+                .stream()
+                .filter(r -> (!startDate.isBefore(r.getStartDate()) && !startDate.isAfter(r.getEndDate()))
+                            || (!endDate.isAfter(r.getEndDate()) && !endDate.isBefore(r.getStartDate()))
+                            || (endDate.isAfter(r.getEndDate()) && startDate.isBefore(r.getStartDate())))
+                .count();
+
+        return rents < this.getCount();
     }
 }

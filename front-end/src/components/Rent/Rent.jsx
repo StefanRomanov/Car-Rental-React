@@ -1,44 +1,31 @@
-import React, {Component} from 'react';
-import fetcher from "../../data/fetcher";
-import config from "../../config/server-config";
+import React from 'react';
+import FinishRentForm from "./FinishRentForm";
+import RentAdminButtons from "./RentAdminButtons";
 
 
-class Rent extends Component {
-    constructor(props) {
-        super(props);
-
-        this.onClick = this.onClick.bind(this);
-    }
-
-    onClick(){
-        fetcher.post(config.SERVER_PATH + "/rents/approve/" + this.props.data.id)
-            .then(data => {
-                console.log(data);
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
-
-
-    render() {
+export default (props) => {
         return (
-            <div className="rent">
-                <h1>{this.props.data.car.brand}</h1>
-                <h2>{this.props.data.car.model}</h2>
-                <h3>{this.props.data.startDate}</h3>
-                <h3>{this.props.data.endDate}</h3>
-                <h3>{this.props.data.totalPrice}</h3>
-                {
-                    !this.props.data.approved
-                        ?<button onClick={this.onClick}>Approve</button>
-                        :null
-                }
-
+            <div className="card shadow">
+                <div className="card-horizontal">
+                    <div className="card-body">
+                        <div className="card-columns">
+                            <h4>{props.data.car.brand}</h4>
+                            <h4>{props.data.car.model}</h4>
+                            <h5>Start date: {props.data.startDate}</h5>
+                            <h5>Return date: {props.data.endDate}</h5>
+                            <h5>Total cost: {props.data.totalPrice} &#1083;&#1074;</h5>
+                        </div>
+                    </div>
+                        {
+                            !props.data.approved
+                                ?(<div className="card-footer col-md-2">
+                                    <RentAdminButtons id={props.data.id} update={props.update}/>
+                                </div>)
+                                :(<div className="card-footer col-md-4">
+                                    <FinishRentForm id={props.data.id} update={props.update}/>
+                                </div>)
+                        }
+                </div>
             </div>
         )
-    }
-
 }
-
-export default Rent;

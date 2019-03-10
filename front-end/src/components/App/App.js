@@ -8,7 +8,7 @@ import Navigation from "../Navigation/Navigation";
 import Home from "../Home/Home";
 import Footer from "../Footer/Footer";
 import {BrowserRouter} from "react-router-dom";
-import RentsApproved from '../Rent/RentsApproved'
+import RentsActive from '../Rent/RentsActive'
 import RentsPending from "../Rent/RentsPending";
 import Cars from "../Car/Cars";
 import CreateCar from "../Car/CarForms/CreateCar";
@@ -45,7 +45,7 @@ class App extends Component {
                             <Route exact path={"/"} component={Home}/>
                             <Route exact path="/register" component={RegisterForm}/>
                             <Route exact path="/login" component={LoginForm}/>
-                            <Route exact path="/rents/active" component={RentsApproved}/>
+                            <Route exact path="/rents/active" component={RentsActive}/>
                             <Route exact path="/rents/pending" component={RentsPending}/>
                             <Route exact path="/cars/all" component={Cars}/>
                             <Route exact path="/cars/create" component={CreateCar}/>

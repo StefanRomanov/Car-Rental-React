@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
-import fetcher from '../../data/fetcher'
-import config from '../../config/server-config'
+import services from '../../services'
 import Input from "../Generic/Input";
 
 class RegisterForm extends Component {
@@ -26,17 +25,24 @@ class RegisterForm extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        return fetcher.post(config.SERVER_PATH + "/users/register", this.state);
+        services.authService.login(this.state)
+            .then(() => {
+                this.props.history.push("/login");
+            })
+            .catch(e => {
+                console.log(e);
+            });
     }
 
     render() {
         return (
             <div className='container'>
                 <div className='row space-top justify-content-center'>
-                    <div className='col-md-4 '>
+                    <div className='col-md-4 text-center'>
                         <h1>Register</h1>
                     </div>
                 </div>
+                <hr/>
                 <form onSubmit={this.onSubmit}>
                     <div className='row space-top justify-content-center'>
                         <div className='col-md-4'>
@@ -44,7 +50,8 @@ class RegisterForm extends Component {
                             <Input onChange={this.onChange} name="email" label="Email" type="email" value={this.state.email}/>
                             <Input onChange={this.onChange} name="password" label="Password" type="password" value={this.state.password}/>
                             <Input onChange={this.onChange} name="repeatPassword" label="Repeat Password" type="password" value={this.state.repeatPassword}/>
-                            <input type="submit" className="btn btn-primary" value="Register"/>
+                            <hr/>
+                            <input type="submit" className="btn btn-primary form-control" value="Register"/>
                         </div>
                     </div>
                 </form>

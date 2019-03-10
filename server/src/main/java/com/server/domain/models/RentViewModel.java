@@ -9,6 +9,7 @@ public class RentViewModel {
     private LocalDate endDate;
     private CarViewModel car;
     private boolean isApproved;
+    private boolean isFinished;
     private Double totalPrice;
 
     public RentViewModel() {
@@ -52,6 +53,14 @@ public class RentViewModel {
 
     public void setCar(CarViewModel car) {
         this.car = car;
+    }
+
+    public boolean getFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 
     public Double getTotalPrice() {

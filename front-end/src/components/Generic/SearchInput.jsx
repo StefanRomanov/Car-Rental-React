@@ -5,20 +5,28 @@ class SearchInput extends Component {
     constructor(props) {
         super(props);
 
-        this.onClick = this.onClick.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onClick(){
+    onSubmit(e) {
+        e.preventDefault();
         alert("Searching...")
     }
 
     render() {
         return (
-            <div className="search">
-                <label htmlFor="search">Search</label>
-                <input type="text" id="search" placeholder="search"/>
-                <button onClick={this.onClick}>Search</button>
-            </div>
+                <form onSubmit={this.onSubmit}>
+                    <div className="form-row col-lg-12 justify-content-center">
+                        <div className="my-3 col-lg-6">
+                            <label className="sr-only" htmlFor="search">Name</label>
+                            <input type="text" className="form-control" id="search" placeholder="Search"/>
+                        </div>
+                        <div className="col-auto my-3">
+                            <button type="submit" className="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </form>
+
         )
     }
 

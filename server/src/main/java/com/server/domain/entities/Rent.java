@@ -14,11 +14,12 @@ public class Rent extends BaseEntity {
     private LocalDate startDate;
     private LocalDate endDate;
     private boolean isApproved;
+    private boolean isFinished;
 
     public Rent() {
     }
 
-    @OneToOne
+    @ManyToOne
     public Car getCar() {
         return car;
     }
@@ -65,5 +66,13 @@ public class Rent extends BaseEntity {
 
     public void setApproved(boolean approved) {
         isApproved = approved;
+    }
+
+    public boolean getFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 }

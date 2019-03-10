@@ -1,3 +1,18 @@
+.app-bg-primary{
+    background: burlywood;
+}
+.app-bg-secondary{
+    background: beige;
+}
+
+.app-bg-third{
+    background: saddlebrown;
+}
+
+.app-bg-fourth{
+    background: lightcyan;
+}
+
 a.nav-link {
     display: inline-block;
     color: lightcyan;
@@ -26,6 +41,10 @@ a.nav-link.active {
     border-radius: 55%;
 }
 
+.jumbotron {
+    background: lightcyan;
+}
+
 .space-top {
     margin-top: 2em;
 }
@@ -45,6 +64,26 @@ a.nav-link.active {
 .card {
     margin-bottom: 1em;
 }
+.card:hover {
+    background: beige;
+}
+
+.card-image{
+    width: 150px;
+    height: 150px;
+    border-radius: 3px;
+}
+
+.details-image{
+    width: 350px;
+    height: 250px;
+    border-radius: 5px;
+}
+
+.row .no-float {
+    display: table-cell;
+    float: none;
+}
 
 .selected {
     background: #666666;
@@ -57,6 +96,7 @@ html {
 
 body {
     margin-bottom: 220px;
+    background: beige;
 }
 
 #footer {
@@ -65,7 +105,46 @@ body {
     width: 100%;
 }
 
-.card-image {
-    width: 300px;
-    height: 200px;
+.card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.w-85{
+    width: 85%;
+}
+
+.w-35{
+    width: 35%;
+}
+
+.w-15{
+    width: 15%;
+}
+
+.w-10{
+    width: 10%;
+}
+
+.w-5{
+    width: 5%;
+}
+.h-95{
+    height: 95%;
+}
+
+.h-90{
+    height: 90%;
+}
+
+.h-85{
+    height: 85%;
+}
+
+.h-15{
+    height: 15%;
+}
+
+pre{
+    overflow-y: scroll
 }

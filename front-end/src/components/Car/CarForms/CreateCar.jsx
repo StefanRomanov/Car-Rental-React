@@ -1,9 +1,8 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import Input from "../../Generic/Input";
 
 import './CreateCar.css';
-import fetcher from "../../../data/fetcher";
-import config from "../../../config/server-config";
+import services from '../../../services'
 
 
 class CreateCar extends Component {
@@ -13,7 +12,7 @@ class CreateCar extends Component {
 
             brand: null,
             model: null,
-            power: null,
+            count: null,
             color: null,
             description: null,
             imageUrl: null,
@@ -34,7 +33,7 @@ class CreateCar extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        fetcher.post(config.SERVER_PATH + "/cars/create", this.state)
+        services.carService.createCar(this.state)
             .then(() => {
                 this.handleRedirect();
             })
@@ -50,24 +49,35 @@ class CreateCar extends Component {
 
     render() {
         return (
-            <Fragment>
-                <h1>Add new car</h1>
-                <form onSubmit={this.onSubmit} id="car-create-form">
-                    <Input onChange={this.onChange} name="brand" label="Brand" type="text"/>
-                    <Input onChange={this.onChange} name="model" label="Model" type="text"/>
-                    <Input onChange={this.onChange} name="power" label="Horse power" type="number"/>
-                    <Input onChange={this.onChange} name="color" label="Color" type="text"/>
-                    <Input onChange={this.onChange} name="imageUrl" label="Image URL" type="text"/>
-                    <Input onChange={this.onChange} name="litersPerHundredKilometers" label="Fuel expense per KM"
-                           type="number" step="0.01"/>
-                    <Input onChange={this.onChange} name="pricePerDay" label="Price per day" type="number" step="0.01"/>
-                    <div>
-                        <label htmlFor="description">Description</label>
-                        <textarea onChange={this.onChange} name="description" id="description" placeholder="Description..." />
+            <div className='container'>
+                <div className='row space-top justify-content-center'>
+                    <div className='col-md-4 text-center'>
+                        <h1>Create a car</h1>
                     </div>
-                    <button type="submit">Add</button>
-                </form>
-            </Fragment>
+                </div>
+                <div className='row space-top justify-content-center'>
+                    <div className='col-md-6'>
+                        <form onSubmit={this.onSubmit}>
+                            <Input onChange={this.onChange} name="brand" label="Brand" type="text"/>
+                            <Input onChange={this.onChange} name="model" label="Model" type="text"/>
+                            <Input onChange={this.onChange} name="count" label="Count" type="number"/>
+                            <Input onChange={this.onChange} name="color" label="Color" type="text"/>
+                            <Input onChange={this.onChange} name="imageUrl" label="Image URL" type="text"/>
+                            <Input onChange={this.onChange} name="litersPerHundredKilometers"
+                                   label="Fuel expense per KM"
+                                   type="number" step="0.01"/>
+                            <Input onChange={this.onChange} name="pricePerDay" label="Price per day" type="number"
+                                   step="0.01"/>
+                            <div>
+                                <label htmlFor="description" className='form-control-label'>Description</label>
+                                <textarea onChange={this.onChange} className="form-control mb-3" name="description" id="description"
+                                          placeholder="Description..."/>
+                            </div>
+                            <input type="submit" className="btn btn-primary form-control" value="Create"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
         )
     }
 

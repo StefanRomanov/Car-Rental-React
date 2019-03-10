@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -59,6 +60,13 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
+    public List<RentViewModel> allActiveRents() {
+        Type type = new TypeToken<List<RentViewModel>>(){}.getType();
+
+        return this.modelMapper.map(this.rentRepository.findAllByFinishedAndApproved(false, true),type);
+    }
+
+    @Override
     public boolean approveRent(String id) {
         Rent rent = this.rentRepository.getOne(id);
         if(rent.getId() == null){
@@ -72,6 +80,40 @@ public class RentServiceImpl implements RentService {
         return true;
     }
 
+    @Override
+    public boolean declineRent(String id) {
+
+        Rent rent = this.rentRepository.getOne(id);
+        if(rent.getId() == null){
+            return false;
+        }
+
+        rent.getCar().getActiveRents().remove(rent);
+        this.rentRepository.delete(rent);
+
+        return true;
+    }
+
+    @Override
+    public boolean finishRent(LocalDate returnDate, String id) {
+
+        Rent rent = this.rentRepository.getOne(id);
+
+        if(rent.getId() == null){
+            return false;
+        }
+
+        rent.getCar().getActiveRents().remove(rent);
+        rent.setFinished(true);
+
+        if(returnDate.isAfter(rent.getEndDate())){
+            this.createPenaltyReceipt(rent,returnDate);
+        }
+        return true;
+    }
+
+
+
     private Receipt createReceipt(Rent rent){
         Receipt receipt = new Receipt();
 
@@ -82,5 +124,12 @@ public class RentServiceImpl implements RentService {
         receipt.setPricePaid(rent.calculatePrice());
 
         return receipt;
+    }
+
+    private void createPenaltyReceipt(Rent rent, LocalDate returnDate){
+        long days = ChronoUnit.DAYS.between(rent.getEndDate(),returnDate) + 1;
+        Receipt receipt = createReceipt(rent);
+        receipt.setPricePaid(rent.getCar().getPricePerDay() * days);
+        this.receiptRepository.saveAndFlush(receipt);
     }
 }

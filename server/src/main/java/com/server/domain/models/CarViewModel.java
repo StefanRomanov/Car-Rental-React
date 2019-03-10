@@ -5,12 +5,12 @@ public class CarViewModel {
     private String id;
     private String brand;
     private String model;
-    private Integer power;
     private String color;
     private String description;
     private String imageUrl;
     private Double litersPerHundredKilometers;
     private Double pricePerDay;
+    private Integer count;
     private boolean isRented;
 
     public CarViewModel() {
@@ -38,14 +38,6 @@ public class CarViewModel {
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public Integer getPower() {
-        return power;
-    }
-
-    public void setPower(Integer power) {
-        this.power = power;
     }
 
     public String getDescription() {
@@ -78,6 +70,14 @@ public class CarViewModel {
 
     public void setLitersPerHundredKilometers(Double litersPerHundredKilometers) {
         this.litersPerHundredKilometers = litersPerHundredKilometers;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     public Double getPricePerDay() {

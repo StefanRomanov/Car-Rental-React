@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import Rent from "./Rent";
-import services from '../../services'
+import services from '../../services/'
 import Loading from "../Generic/Loading";
 
 
-class RentsPending extends Component {
+class RentsActive extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,19 +15,15 @@ class RentsPending extends Component {
         this.updateList = this.updateList.bind(this)
     }
 
-    componentDidMount() {
-        services.rentService.pendingRents()
-            .then(data => {
-                this.setState({
-                    data,
-                    loading: false
-                })
-            })
+    updateList() {
+        this.setState({
+            loading: true
+        });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(this.state.loading){
-            services.rentService.pendingRents()
+            services.rentService.activeRents()
                 .then(data => {
                     this.setState({
                         data,
@@ -37,12 +33,20 @@ class RentsPending extends Component {
         }
     }
 
+    componentDidMount() {
+        services.rentService.activeRents()
+            .then(data => {
+                this.setState({
+                    data,
+                    loading: false
+                })
+            })
+    }
 
     render() {
         if (this.state.loading) {
             return <Loading/>
         }
-
         return (
             <div className="container col-lg-8 my-5 jumbotron">
                 {
@@ -56,4 +60,4 @@ class RentsPending extends Component {
 
 }
 
-export default RentsPending;
+export default RentsActive;

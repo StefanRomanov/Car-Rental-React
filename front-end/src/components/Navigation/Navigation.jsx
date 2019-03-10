@@ -13,7 +13,7 @@ class Navigation extends Component {
     render() {
         return (
             <header>
-                <div className="navbar bg-info">
+                <div className="navbar bg-info shadow">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 justify-content-between">

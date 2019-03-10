@@ -3,12 +3,12 @@ package com.server.domain.models;
 public class CarCreationBindingModel {
     private String brand;
     private String model;
-    private Integer power;
     private String color;
     private String description;
     private String imageUrl;
     private Double litersPerHundredKilometers;
     private Double pricePerDay;
+    private Integer count;
 
     public CarCreationBindingModel() {
     }
@@ -27,14 +27,6 @@ public class CarCreationBindingModel {
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public Integer getPower() {
-        return power;
-    }
-
-    public void setPower(Integer power) {
-        this.power = power;
     }
 
     public String getDescription() {
@@ -75,5 +67,13 @@ public class CarCreationBindingModel {
 
     public void setPricePerDay(Double pricePerDay) {
         this.pricePerDay = pricePerDay;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

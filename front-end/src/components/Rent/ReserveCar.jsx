@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import fetcher from '../../data/fetcher';
-import config from "../../config/server-config";
 import Input from "../Generic/Input";
+import services from '../../services'
+import CarInformation from "../Car/CarDetails/CarInformation";
 
 
 class ReserveCar extends Component {
@@ -32,7 +32,7 @@ class ReserveCar extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        fetcher.post(config.SERVER_PATH + "/rents/reserve/" + this.state.id, this.state.form)
+        services.rentService.reserve(this.state.id, this.state.form)
             .then(data => {
                 console.log(data);
             })
@@ -44,7 +44,7 @@ class ReserveCar extends Component {
     componentDidMount() {
         const id = this.props.match.params.id;
 
-        fetcher.get(config.SERVER_PATH + '/cars/' + id)
+        services.carService.getCarById(id)
             .then(data => {
                 this.setState({
                     isLoaded: true,
@@ -72,14 +72,7 @@ class ReserveCar extends Component {
 
         return (
             <div className="home">
-                <h1>{this.state.brand}</h1>
-                <h2>{this.state.model}</h2>
-                <img src={this.state.imageUrl} alt=""/>
-                <h3>{this.state.pricePerDay}</h3>
-                <h4>{this.state.power}</h4>
-                <div>
-                    <p>{this.state.description}</p>
-                </div>
+                <CarInformation data={this.state}/>
                 <form onSubmit={this.onSubmit}>
                     <h1>Pick Dates</h1>
                     <Input onChange={this.onChange} type="date" name="startDate" label="Start date"/>

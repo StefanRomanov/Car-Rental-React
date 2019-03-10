@@ -4,6 +4,7 @@ public class UserRegisterBindingModel {
     private String username;
     private String email;
     private String password;
+    private String repeatPassword;
 
     public UserRegisterBindingModel() {
     }
@@ -30,5 +31,13 @@ public class UserRegisterBindingModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
     }
 }

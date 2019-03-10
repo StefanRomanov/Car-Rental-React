@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import Car from "./Car";
 import SearchInput from '../Generic/SearchInput'
-import fetcher from "../../data/fetcher";
-import config from "../../config/server-config";
+
+import services from '../../services'
+import Loading from "../Generic/Loading";
 
 
 class Cars extends Component {
@@ -17,14 +18,13 @@ class Cars extends Component {
 
     componentDidMount() {
 
-        fetcher.get(config.SERVER_PATH + '/cars/all')
+        services.carService.getAllCars()
             .then(data => {
                 console.log(data);
                 this.setState({
                     isLoaded: true,
                     cars: data.entity
                 });
-
             })
             .catch(e => {
                 console.log(e);
@@ -32,18 +32,21 @@ class Cars extends Component {
     }
 
     render() {
-        if(!this.state.isLoaded){
-            return <h1>Loading...</h1>
+        if (!this.state.isLoaded) {
+            return <Loading/>
         }
 
         return (
-            <div className="cars">
+            <div className="container col-lg-8">
                 <SearchInput/>
-                {
-                    this.state.cars && this.state.cars.length
-                        ? this.state.cars.map(c => <Car key={c.id} brand={c.brand} model={c.model} pricePerDay={c.pricePerDay} id={c.id}/>)
-                        : <h1>No cars so far :(</h1>
-                }
+                <div>
+                    {
+                        this.state.cars && this.state.cars.length
+                            ? this.state.cars.map(c => <Car key={c.id} brand={c.brand} model={c.model}
+                                                            pricePerDay={c.pricePerDay} id={c.id} imageUrl={c.imageUrl}/>)
+                            : <h1>No cars so far :(</h1>
+                    }
+                </div>
             </div>
         )
     }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +48,9 @@ public class CarServiceImpl implements CarService {
         if(car == null){
             return false;
         }
+
+        car.getActiveRents().forEach(this.rentRepository::delete);
+
         this.carRepository.delete(car);
 
         return true;
@@ -63,9 +67,9 @@ public class CarServiceImpl implements CarService {
         car.setBrand(model.getBrand());
         car.setModel(model.getModel());
         car.setColor(model.getColor());
+        car.setCount(model.getCount());
         car.setImageUrl(model.getImageUrl());
         car.setDescription(model.getDescription());
-        car.setPower(model.getPower());
         car.setLitersPerHundredKilometers(model.getLitersPerHundredKilometers());
         car.setPricePerDay(model.getPricePerDay());
 
@@ -80,19 +84,12 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarViewModel> allAvailableCars(CarsWithinDatesModel model) {
-        List<String> takenCars = this.rentRepository
-                .findAllByStartDateBetweenOrEndDateBetween(
-                        model.getStartDate(),
-                        model.getEndDate(),
-                        model.getStartDate(),
-                        model.getEndDate())
-                .stream()
-                .map(r -> r.getCar().getId())
-                .collect(Collectors.toList());
+
+        //List<Car> freeCars = this.carRepository.findAllCarsWithRentsNotInRange(model.getStartDate().minusDays(1), model.getEndDate().plusDays(1));
 
         List<Car> freeCars = this.carRepository.findAll()
                 .stream()
-                .filter(x -> !takenCars.contains(x.getId()))
+                .filter(c -> c.isAvailable(model.getStartDate(), model.getEndDate()))
                 .collect(Collectors.toList());
 
         Type type = new TypeToken<List<CarViewModel>>(){}.getType();

@@ -1,9 +1,9 @@
-import rent from './rentService';
-import car from './carService';
-import auth from './authService'
+import rentService from './rentService';
+import carService from './carService';
+import authService from './authService'
 
-export default {
-    rentService: rent,
-    carService: car,
-    authService: auth
+export {
+    rentService,
+    carService,
+    authService
 }

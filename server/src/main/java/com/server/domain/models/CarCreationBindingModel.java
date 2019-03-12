@@ -3,7 +3,9 @@ package com.server.domain.models;
 public class CarCreationBindingModel {
     private String brand;
     private String model;
-    private String color;
+    private Integer trunkCapacity;
+    private Integer seats;
+    private Integer year;
     private String description;
     private String imageUrl;
     private Double litersPerHundredKilometers;
@@ -37,12 +39,28 @@ public class CarCreationBindingModel {
         this.description = description;
     }
 
-    public String getColor() {
-        return color;
+    public Integer getTrunkCapacity() {
+        return trunkCapacity;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setTrunkCapacity(Integer trunkCapacity) {
+        this.trunkCapacity = trunkCapacity;
+    }
+
+    public Integer getSeats() {
+        return seats;
+    }
+
+    public void setSeats(Integer seats) {
+        this.seats = seats;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public String getImageUrl() {

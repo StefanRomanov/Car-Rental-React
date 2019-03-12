@@ -21,16 +21,16 @@ function approveRent(id){
         })
 }
 
-function approvedRents(){
-    return fetcher.get(config.SERVER_PATH + "/rents/approved")
+function approvedRents(pageString){
+    return fetcher.get(config.SERVER_PATH + "/rents/approved" + pageString)
 }
 
-function pendingRents(){
-    return fetcher.get(config.SERVER_PATH + "/rents/unapproved")
+function pendingRents(pageString){
+    return fetcher.get(config.SERVER_PATH + "/rents/unapproved" + pageString)
 }
 
-function activeRents(){
-    return fetcher.get(config.SERVER_PATH + "/rents/active");
+function activeRents(pageString){
+    return fetcher.get(config.SERVER_PATH + "/rents/active" + pageString);
 }
 
 function reserve(carId,dates){

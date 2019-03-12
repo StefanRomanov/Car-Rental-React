@@ -9,8 +9,11 @@ import com.server.domain.models.RentViewModel;
 import com.server.repositories.CarRepository;
 import com.server.repositories.ReceiptRepository;
 import com.server.repositories.RentRepository;
+import com.server.util.PageMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -47,23 +50,18 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public List<RentViewModel> allUnapprovedRents() {
-        Type type = new TypeToken<List<RentViewModel>>(){}.getType();
-        return this.modelMapper.map(this.rentRepository.findAllByApproved(false),type);
+    public Page<RentViewModel> allUnapprovedRents(Pageable pageable) {
+        return PageMapper.mapPage(this.rentRepository.findAllByApproved(pageable,false),RentViewModel.class,modelMapper);
     }
 
     @Override
-    public List<RentViewModel> allApprovedRents() {
-        Type type = new TypeToken<List<RentViewModel>>(){}.getType();
-
-        return this.modelMapper.map(this.rentRepository.findAllByApproved(true),type);
+    public Page<RentViewModel> allApprovedRents(Pageable pageable) {
+        return PageMapper.mapPage(this.rentRepository.findAllByApproved(pageable,true),RentViewModel.class,modelMapper);
     }
 
     @Override
-    public List<RentViewModel> allActiveRents() {
-        Type type = new TypeToken<List<RentViewModel>>(){}.getType();
-
-        return this.modelMapper.map(this.rentRepository.findAllByFinishedAndApproved(false, true),type);
+    public Page<RentViewModel> allActiveRents(Pageable pageable) {
+        return PageMapper.mapPage(this.rentRepository.findAllByFinishedAndApproved(pageable,false,  true),RentViewModel.class,modelMapper);
     }
 
     @Override

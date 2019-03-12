@@ -1,20 +1,22 @@
 package com.server.services;
 
 import com.server.domain.entities.Car;
-import com.server.domain.entities.Rent;
 import com.server.domain.models.CarCreationBindingModel;
 import com.server.domain.models.CarViewModel;
 import com.server.domain.models.CarsWithinDatesModel;
 import com.server.repositories.CarRepository;
 import com.server.repositories.RentRepository;
+import com.server.util.PageMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +34,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarCreationBindingModel CreateCar(CarCreationBindingModel model) {
-        Car newCar = modelMapper.map(model,Car.class);
+        Car newCar = modelMapper.map(model, Car.class);
 
         return this.modelMapper.map(this.carRepository.saveAndFlush(newCar), CarCreationBindingModel.class);
     }
@@ -45,7 +47,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public boolean deleteById(String id) {
         Car car = this.carRepository.findFirstById(id);
-        if(car == null){
+        if (car == null) {
             return false;
         }
 
@@ -60,40 +62,43 @@ public class CarServiceImpl implements CarService {
     public CarViewModel editCar(String id, CarCreationBindingModel model) {
         Car car = this.carRepository.findFirstById(id);
 
-        if(car == null){
+        if (car == null) {
             return null;
         }
 
         car.setBrand(model.getBrand());
         car.setModel(model.getModel());
-        car.setColor(model.getColor());
+        car.setSeats(model.getSeats());
+        car.setYear(model.getYear());
+        car.setTrunkCapacity(model.getTrunkCapacity());
         car.setCount(model.getCount());
         car.setImageUrl(model.getImageUrl());
         car.setDescription(model.getDescription());
         car.setLitersPerHundredKilometers(model.getLitersPerHundredKilometers());
         car.setPricePerDay(model.getPricePerDay());
 
-        return this.modelMapper.map(this.carRepository.saveAndFlush(car),CarViewModel.class);
+        return this.modelMapper.map(this.carRepository.saveAndFlush(car), CarViewModel.class);
     }
 
     @Override
-    public List<CarViewModel> allCars() {
-        Type type = new TypeToken<List<CarViewModel>>(){}.getType();
-        return this.modelMapper.map(this.carRepository.findAll(),type);
+    public Page<CarViewModel> allCars(Pageable pageable) {
+        Page<Car> cars = this.carRepository.findAll(pageable);
+        return PageMapper.mapPage(cars, CarViewModel.class, modelMapper);
     }
 
     @Override
-    public List<CarViewModel> allAvailableCars(CarsWithinDatesModel model) {
-
-        //List<Car> freeCars = this.carRepository.findAllCarsWithRentsNotInRange(model.getStartDate().minusDays(1), model.getEndDate().plusDays(1));
+    public Page<CarViewModel> allAvailableCars(Pageable pageable, CarsWithinDatesModel model) {
 
         List<Car> freeCars = this.carRepository.findAll()
                 .stream()
                 .filter(c -> c.isAvailable(model.getStartDate(), model.getEndDate()))
                 .collect(Collectors.toList());
 
-        Type type = new TypeToken<List<CarViewModel>>(){}.getType();
+        long start = pageable.getOffset();
 
-        return this.modelMapper.map(freeCars, type);
+        long end = (start + pageable.getPageSize()) > freeCars.size() ? freeCars.size() : (start + pageable.getPageSize());
+        Page<Car> cars = new PageImpl<>(freeCars.subList((int)start, (int)end), pageable, freeCars.size());
+
+        return PageMapper.mapPage(cars, CarViewModel.class, this.modelMapper);
     }
 }

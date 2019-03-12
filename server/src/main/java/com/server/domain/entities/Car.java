@@ -11,8 +11,10 @@ public class Car extends BaseEntity{
 
     private String brand;
     private String model;
-    private String color;
+    private Integer trunkCapacity;
     private String description;
+    private Integer year;
+    private Integer seats;
     private String imageUrl;
     private Double litersPerHundredKilometers;
     private Double pricePerDay;
@@ -39,6 +41,7 @@ public class Car extends BaseEntity{
         this.model = model;
     }
 
+    @Lob
     public String getDescription() {
         return description;
     }
@@ -47,12 +50,28 @@ public class Car extends BaseEntity{
         this.description = description;
     }
 
-    public String getColor() {
-        return color;
+    public Integer getTrunkCapacity() {
+        return trunkCapacity;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setTrunkCapacity(Integer trunkCapacity) {
+        this.trunkCapacity = trunkCapacity;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getSeats() {
+        return seats;
+    }
+
+    public void setSeats(Integer seats) {
+        this.seats = seats;
     }
 
     public String getImageUrl() {

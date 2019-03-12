@@ -39,7 +39,15 @@ public class UserServiceImpl implements UserService {
     public boolean register(UserRegisterBindingModel model) {
         model.setPassword(encoder.encode(model.getPassword()));
         User user = this.modelMapper.map(model,User.class);
-        UserRole role = this.roleRepository.getFirstByAuthority("USER");
+
+        UserRole role;
+
+        if(this.userRepository.findAll().size() == 0){
+            role = this.roleRepository.getFirstByAuthority("ADMIN");
+        } else {
+           role = this.roleRepository.getFirstByAuthority("USER");
+        }
+
         user.getAuthorities().add(role);
 
         User returnedUser = this.userRepository.saveAndFlush(user);

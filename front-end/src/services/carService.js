@@ -10,8 +10,8 @@ export default {
 
 }
 
-function findAvailableCars(dates){
-    return fetcher.post(config.SERVER_PATH + "/cars/available", dates)
+function findAvailableCars(pageString,dates){
+    return fetcher.post(config.SERVER_PATH + "/cars/available"+ pageString, dates)
 }
 
 function getCarById(id){
@@ -24,8 +24,9 @@ function editCar(id, body){
 
 function createCar(body){
     return fetcher.post(config.SERVER_PATH + "/cars/create", body)
+
 }
 
-function getAllCars(){
-    return fetcher.get(config.SERVER_PATH + '/cars/all')
+function getAllCars(pageString){
+    return fetcher.get(config.SERVER_PATH + '/cars/all' + pageString)
 }

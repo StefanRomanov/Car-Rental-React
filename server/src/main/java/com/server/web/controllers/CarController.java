@@ -4,8 +4,9 @@ import com.server.domain.entities.ResponseBody;
 import com.server.domain.models.CarCreationBindingModel;
 import com.server.domain.models.CarViewModel;
 import com.server.domain.models.CarsWithinDatesModel;
-import com.server.domain.models.RentCreateBindingModel;
 import com.server.services.CarService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -66,21 +67,20 @@ public class CarController {
     }
 
     @GetMapping("/all")
-    public ResponseBody allCars(){
+    public ResponseBody allCars(Pageable pageable){
         ResponseBody rb = new ResponseBody();
-        List<CarViewModel> result = this.carService.allCars();
-        rb.setMessage("Found " + result.size() + " cars !");
+        Page<CarViewModel> result = this.carService.allCars(pageable);
+
         rb.setEntity(result);
         return rb;
     }
 
     @PostMapping("/available")
-    public ResponseBody availableCars(@RequestBody CarsWithinDatesModel model){
+    public ResponseBody availableCars(Pageable pageable, @RequestBody CarsWithinDatesModel model){
 
         ResponseBody rb = new ResponseBody();
-        List<CarViewModel> result = this.carService.allAvailableCars(model);
+        Page<CarViewModel> result = this.carService.allAvailableCars(pageable,model);
 
-        rb.setMessage("Found " + result.size() + " cars !");
         rb.setEntity(result);
         return rb;
     }

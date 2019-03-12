@@ -5,7 +5,9 @@ public class CarViewModel {
     private String id;
     private String brand;
     private String model;
-    private String color;
+    private Integer trunkCapacity;
+    private Integer seats;
+    private Integer year;
     private String description;
     private String imageUrl;
     private Double litersPerHundredKilometers;
@@ -48,12 +50,28 @@ public class CarViewModel {
         this.description = description;
     }
 
-    public String getColor() {
-        return color;
+    public Integer getYear() {
+        return year;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getTrunkCapacity() {
+        return trunkCapacity;
+    }
+
+    public void setTrunkCapacity(Integer trunkCapacity) {
+        this.trunkCapacity = trunkCapacity;
+    }
+
+    public Integer getSeats() {
+        return seats;
+    }
+
+    public void setSeats(Integer seats) {
+        this.seats = seats;
     }
 
     public String getImageUrl() {

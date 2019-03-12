@@ -6,7 +6,10 @@ import com.server.domain.models.RentFinishModel;
 import com.server.domain.models.RentViewModel;
 import com.server.services.RentService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -32,16 +35,16 @@ public class RentController {
     }
 
     @GetMapping("/approved")
-    public List<RentViewModel> allApproved(){
-        return this.rentService.allApprovedRents();
+    public Page<RentViewModel> allApproved(Pageable pageable){
+        return this.rentService.allApprovedRents(pageable);
     }
 
     @GetMapping("/active")
-    public List<RentViewModel> allActive() {return this.rentService.allActiveRents();}
+    public Page<RentViewModel> allActive(Pageable pageable) {return this.rentService.allActiveRents(pageable);}
 
     @GetMapping("/unapproved")
-    public List<RentViewModel> allUnapproved(){
-        return this.rentService.allUnapprovedRents();
+    public Page<RentViewModel> allUnapproved(Pageable pageable){
+        return this.rentService.allUnapprovedRents(pageable);
     }
 
     @PostMapping("/approve/{id}")

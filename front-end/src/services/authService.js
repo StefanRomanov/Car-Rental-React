@@ -1,15 +1,34 @@
 import fetcher from "../data/fetcher";
 import config from "../config/server-config";
+import decode from 'jwt-decode';
+import toastr from "toastr";
 
-export default{
+export default {
     login,
-    register
+    register,
+    logout,
+    decodeToken
 }
 
-function login(data){
-    return fetcher.post(config.SERVER_PATH + "/login", data);
+function login(data) {
+    return fetcher.post(config.SERVER_PATH + "/login", data)
+
 }
 
-function register(data){
+function register(data) {
     return fetcher.post(config.SERVER_PATH + "/users/register", data)
+        .then(() => {
+            this.props.history.push("/login");
+        })
+        .catch(err => {
+            toastr.error(err.message);
+        });
+}
+
+function logout(){
+    window.localStorage.clear();
+}
+
+function decodeToken(token){
+    return decode(token);
 }

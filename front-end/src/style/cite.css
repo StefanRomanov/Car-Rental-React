@@ -148,3 +148,11 @@ body {
 pre{
     overflow-y: scroll
 }
+
+.toast-error {
+    background: crimson;
+}
+
+.toast-success {
+    background: forestgreen;
+}

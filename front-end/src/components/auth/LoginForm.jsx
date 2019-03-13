@@ -5,7 +5,7 @@ import {authService} from '../../services'
 import Input from "../common/Input";
 import {loginValidation} from '../../config/formValidator'
 import {loginFormHandler} from '../../config/formErrorHandler'
-import {UserConsumer} from '../contexts/UserContext'
+import {UserConsumer} from '../../context/UserContext'
 import {Redirect} from "react-router";
 
 
@@ -39,24 +39,28 @@ class LoginForm extends Component {
         authService.login(this.state)
             .then(data => {
 
-                const {updateUser} = this.props;
+                if(!data.error){
+                    const {updateUser} = this.props;
 
-                window.localStorage.setItem('auth_token', data.Authorization);
-                const decoded = authService.decodeToken(data.Authorization);
+                    window.localStorage.setItem('auth_token', data.Authorization);
+                    const decoded = authService.decodeToken(data.Authorization);
 
-                console.log(decoded);
+                    const newUser = {
+                        username: decoded.sub,
+                        role: decoded.role,
+                        isLoggedIn: true
+                    };
 
-                const newUser = {
-                    username: decoded.sub,
-                    role: decoded.role,
-                    isLoggedIn: true
-                };
+                    updateUser(newUser);
 
-                updateUser(newUser);
+                } else {
+                    toastr.error(data.message)
+                }
+
 
             })
             .catch(err => {
-                toastr.error(err.message);
+                console.log(err);
             });
     }
 

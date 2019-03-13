@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import Car from "./CarCard";
+import Car from "../common/CarCard";
 import SearchInput from '../common/SearchInput'
 
 import {carService} from '../../services'
-import Loading from "../common/Loading";
 import Paginator from "../common/Paginator";
+import toastr from "toastr";
 
 
 class Cars extends Component {
@@ -12,7 +12,6 @@ class Cars extends Component {
         super(props);
 
         this.state = {
-            isLoaded: false,
             cars: [],
             page: 0,
             totalPages: 0
@@ -54,13 +53,15 @@ class Cars extends Component {
 
     fetchData(){
         carService.getAllCars('?page=' + this.state.page)
-            .then(data => {
-                console.log(data);
-                this.setState({
-                    isLoaded: true,
-                    cars: data.entity.content,
-                    totalPages: data.entity.totalPages
-                });
+            .then(res => {
+                if (res.success === false) {
+                    toastr.error(res.message);
+                } else {
+                    this.setState({
+                        cars: res.entity.content,
+                        totalPages: res.entity.totalPages
+                    });
+                }
             })
             .catch(e => {
                 console.log(e);
@@ -68,19 +69,16 @@ class Cars extends Component {
     }
 
     render() {
-        if (!this.state.isLoaded) {
-            return <Loading/>
-        }
 
         return (
             <div className="container col-lg-8">
                 <SearchInput/>
                 <hr/>
-                <div>
+                <div className='text-center'>
                     {
                         this.state.cars && this.state.cars.length
                             ? this.state.cars.map(c => <Car key={c.id} car={c}/>)
-                            : <h1>No cars so far :(</h1>
+                            : <h3>No cars found</h3>
                     }
                 </div>
                 <hr/>

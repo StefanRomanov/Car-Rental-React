@@ -6,21 +6,19 @@ import com.server.domain.entities.Rent;
 import com.server.domain.models.CarsWithinDatesModel;
 import com.server.domain.models.RentCreateBindingModel;
 import com.server.domain.models.RentViewModel;
+import com.server.exceptions.RentNotFoundException;
 import com.server.repositories.CarRepository;
 import com.server.repositories.ReceiptRepository;
 import com.server.repositories.RentRepository;
 import com.server.util.PageMapper;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Service
 @Transactional
@@ -46,7 +44,10 @@ public class RentServiceImpl implements RentService {
         //TODO: ADD USER
         rentModel.setCar(car);
 
-        return this.modelMapper.map(rentRepository.saveAndFlush(this.modelMapper.map(rentModel, Rent.class)), RentViewModel.class);
+        Rent rent = this.modelMapper.map(rentModel, Rent.class);
+        car.getActiveRents().add(rent);
+
+        return this.modelMapper.map(rentRepository.saveAndFlush(rent), RentViewModel.class);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class RentServiceImpl implements RentService {
     public boolean approveRent(String id) {
         Rent rent = this.rentRepository.getOne(id);
         if(rent.getId() == null){
-            return false;
+            throw new RentNotFoundException();
         }
 
         rent.setApproved(true);
@@ -82,8 +83,9 @@ public class RentServiceImpl implements RentService {
     public boolean declineRent(String id) {
 
         Rent rent = this.rentRepository.getOne(id);
+
         if(rent.getId() == null){
-            return false;
+            throw new RentNotFoundException();
         }
 
         rent.getCar().getActiveRents().remove(rent);
@@ -98,7 +100,7 @@ public class RentServiceImpl implements RentService {
         Rent rent = this.rentRepository.getOne(id);
 
         if(rent.getId() == null){
-            return false;
+            throw new RentNotFoundException();
         }
 
         rent.getCar().getActiveRents().remove(rent);

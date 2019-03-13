@@ -1,4 +1,4 @@
-import fetcher from '../data/fetcher'
+import fetcher from './fetcher'
 import config from "../config/server-config";
 
 export default {

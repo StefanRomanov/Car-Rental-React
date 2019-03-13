@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import './Navigation.css';
 import {NavLink} from "react-router-dom";
-import {UserConsumer} from "../contexts/UserContext";
+import {UserConsumer} from "../../context/UserContext";
 
 
 const Navigation = (props) => {

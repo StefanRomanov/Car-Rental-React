@@ -3,7 +3,10 @@ import {carService} from '../../../services'
 import Loading from "../../common/Loading";
 import CarInformation from "./CarInformation";
 import {Link} from "react-router-dom";
-import {UserConsumer} from "../../contexts/UserContext";
+import {UserConsumer} from "../../../context/UserContext";
+import CarCheckForm from "../car-forms/CarCheckForm";
+import {withRouter} from "react-router";
+import toastr from 'toastr';
 
 
 class CarDetails extends Component {
@@ -29,10 +32,16 @@ class CarDetails extends Component {
 
         carService.getCarById(id)
             .then(data => {
-                this.setState({
-                    isLoaded: true,
-                    ...data
-                });
+
+                if(data.success === false){
+                    toastr.error(data.message);
+                    this.props.history.push("/cars/all");
+                } else {
+                    this.setState({
+                        isLoaded: true,
+                        ...data
+                    });
+                }
             })
             .catch(e => {
                 console.log(e);
@@ -48,21 +57,29 @@ class CarDetails extends Component {
         const {user} = this.props;
 
         return (
-            <Fragment>
-                <CarInformation data={this.state}/>
+            <div className='container col-lg-11'>
+                <div className='row justify-content-center'>
+                    {
+                        user.role === 'USER' ? (
+                            <CarCheckForm id={this.state.id}/>
+                        ) : ''
+                    }
+                    <CarInformation data={this.state}/>
+                </div>
                 {
                     user.role === 'ADMIN' ? (
                         <Fragment>
                             <hr/>
                             <div className="row justify-content-center my-3">
-                                <Link className="btn btn-info mx-3 text-white w-25" to={"/cars/edit/" + this.state.id}>Edit</Link>
+                                <Link className="btn btn-info mx-3 text-white w-25"
+                                      to={"/cars/edit/" + this.state.id}>Edit</Link>
                                 <Link className="btn btn-danger mx-3 text-white w-25"
                                       to={"/cars/delete/" + this.state.id}>Delete</Link>
                             </div>
                         </Fragment>
                     ) : ''
                 }
-            </Fragment>
+            </div>
         )
     }
 
@@ -82,4 +99,4 @@ const CarDetailsWithContext = (props) => {
     )
 };
 
-export default CarDetailsWithContext;
+export default withRouter(CarDetailsWithContext);

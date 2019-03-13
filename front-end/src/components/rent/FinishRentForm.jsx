@@ -2,12 +2,14 @@ import {Component} from "react";
 import {rentService} from "../../services";
 import React from "react";
 import {withRouter} from "react-router-dom";
+import toastr from "toastr";
+import util from "../../services/util"
 
 class FinishRentForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: ""
+            date: util.getCurrentDate()
         };
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -23,8 +25,12 @@ class FinishRentForm extends Component {
     onSubmit(e) {
         e.preventDefault();
         rentService.finishRent(this.props.id,this.state)
-            .then(() => {
-                this.props.update();
+            .then(res => {
+                if (res.success === false) {
+                    toastr.error(res.message);
+                } else {
+                    this.props.update();
+                }
             });
     }
 

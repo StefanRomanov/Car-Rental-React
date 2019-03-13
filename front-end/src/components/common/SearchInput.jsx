@@ -26,10 +26,8 @@ class SearchInput extends Component {
                         </div>
                     </div>
                 </form>
-
         )
     }
-
 }
 
 export default SearchInput;

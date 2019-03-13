@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Rent from "./Rent";
 import {rentService} from '../../services'
-import Loading from "../common/Loading";
 import Paginator from "../common/Paginator";
+import toastr from "toastr";
 
 
 class RentsPending extends Component {
@@ -10,6 +10,7 @@ class RentsPending extends Component {
         super(props);
         this.state = {
             data: [],
+            //TODO FIX THAT NAME
             loading: true,
             page: 0,
             totalPages: 0
@@ -57,29 +58,29 @@ class RentsPending extends Component {
 
     fetchData(){
         rentService.pendingRents('?page='+this.state.page)
-            .then(data => {
-                console.log(data);
-                this.setState({
-                    data: data.content,
-                    loading: false,
-                    totalPages: data.totalPages
-                })
+            .then(res => {
+                if (res.success === false) {
+                    toastr.error(res.message);
+                } else {
+                    this.setState({
+                        data: res.content,
+                        loading: false,
+                        totalPages: res.totalPages
+                    })
+                }
             })
     }
 
 
     render() {
-        if (this.state.loading) {
-            return <Loading/>
-        }
 
         return (
             <div className="container col-lg-8">
-                <div className="my-5 jumbotron">
+                <div className="my-5 jumbotron text-center">
                     {
                         this.state.data && this.state.data.length
                             ? this.state.data.map(r => <Rent update={this.updateList} key={r.id} data={r}/>)
-                            : <h1>No rents so far :(</h1>
+                            : <h3>No rents found</h3>
                     }
                 </div>
                 <hr/>

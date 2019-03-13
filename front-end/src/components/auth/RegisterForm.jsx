@@ -4,6 +4,8 @@ import {authService} from '../../services'
 import Input from "../common/Input";
 import {registerValidation} from '../../config/formValidator'
 import {registerHandler} from '../../config/formErrorHandler'
+import {withRouter} from "react-router";
+import toastr from 'toastr';
 
 class RegisterForm extends Component {
     constructor(props) {
@@ -35,6 +37,15 @@ class RegisterForm extends Component {
         }
 
         authService.register(this.state)
+            .then(res => {
+                if(res.success === false){
+                    toastr.error(res.message)
+                }
+                this.props.history.push("/login");
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     render() {
@@ -72,4 +83,4 @@ class RegisterForm extends Component {
     }
 }
 
-export default RegisterForm;
+export default withRouter(RegisterForm);

@@ -9,9 +9,12 @@ class NotFound extends Component {
 
     render() {
         return (
-            <div className="error">
-                <h1>404 Not Found :(</h1>
+            <div className="container mt-3">
+                <div className="jumbotron text-center shadow">
+                    <h1 className="">404 Page Not Found</h1>
+                </div>
             </div>
+
         )
     }
 

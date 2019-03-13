@@ -4,18 +4,18 @@ import com.server.domain.entities.Car;
 import com.server.domain.models.CarCreationBindingModel;
 import com.server.domain.models.CarViewModel;
 import com.server.domain.models.CarsWithinDatesModel;
+import com.server.exceptions.CarNotFoundException;
 import com.server.repositories.CarRepository;
 import com.server.repositories.RentRepository;
 import com.server.util.PageMapper;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,14 +41,20 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarViewModel getFirstById(String id) {
-        return this.modelMapper.map(this.carRepository.findFirstById(id), CarViewModel.class);
+
+        Car car = this.carRepository.findFirstById(id);
+        if(car == null){
+            throw new CarNotFoundException();
+        }
+
+        return this.modelMapper.map(car, CarViewModel.class);
     }
 
     @Override
     public boolean deleteById(String id) {
         Car car = this.carRepository.findFirstById(id);
         if (car == null) {
-            return false;
+            throw new CarNotFoundException();
         }
 
         car.getActiveRents().forEach(this.rentRepository::delete);
@@ -63,7 +69,7 @@ public class CarServiceImpl implements CarService {
         Car car = this.carRepository.findFirstById(id);
 
         if (car == null) {
-            return null;
+            throw new CarNotFoundException();
         }
 
         car.setBrand(model.getBrand());
@@ -100,5 +106,14 @@ public class CarServiceImpl implements CarService {
         Page<Car> cars = new PageImpl<>(freeCars.subList((int)start, (int)end), pageable, freeCars.size());
 
         return PageMapper.mapPage(cars, CarViewModel.class, this.modelMapper);
+    }
+
+    @Override
+    public boolean checkAvailability(String id, LocalDate startDate, LocalDate endDate) {
+        Car car = this.carRepository.findFirstById(id);
+        if(car == null){
+            throw new CarNotFoundException();
+        }
+        return car.isAvailable(startDate,endDate);
     }
 }

@@ -1,4 +1,4 @@
-import fetcher from "../data/fetcher";
+import fetcher from "./fetcher";
 import config from "../config/server-config";
 import decode from 'jwt-decode';
 import toastr from "toastr";
@@ -17,12 +17,7 @@ function login(data) {
 
 function register(data) {
     return fetcher.post(config.SERVER_PATH + "/users/register", data)
-        .then(() => {
-            this.props.history.push("/login");
-        })
-        .catch(err => {
-            toastr.error(err.message);
-        });
+
 }
 
 function logout(){

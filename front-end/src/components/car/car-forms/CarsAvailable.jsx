@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
-import Input from '../common/Input';
-import Car from "../Car/CarCard";
-import {carService} from '../../services'
-import Paginator from "../common/Paginator";
+import Input from '../../common/Input';
+import CarCard from "../../common/CarCard";
+import {carService} from '../../../services'
+import Paginator from "../../common/Paginator";
+import toastr from "toastr";
+import {DatesConsumer} from "../../../context/DatesContext";
+import util from '../../../services/util'
 
-class RentSearch extends Component {
+class CarsAvailable extends Component {
     constructor(props) {
         super(props);
         this.state = {
             form: {
-                startDate: '',
-                endDate: ''
+                startDate: util.getCurrentDate(),
+                endDate: util.getCurrentDate()
             },
             data: [],
             page: 0,
@@ -36,6 +39,8 @@ class RentSearch extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        const {startDate, endDate} = this.state.form;
+        this.props.updateDates({startDate,endDate})
         this.fetchData()
     }
 
@@ -65,10 +70,15 @@ class RentSearch extends Component {
 
     fetchData(){
         carService.findAvailableCars('?page='+ this.state.page, this.state.form)
-            .then(data => {
-                this.setState({
-                    data: data.entity.content
-                })
+            .then(res => {
+                if (res.success === false) {
+                    toastr.error(res.message);
+                } else {
+                    this.setState({
+                        data: res.entity.content
+                    })
+                }
+
             })
             .catch((e) => {
                 console.log(e)
@@ -92,13 +102,7 @@ class RentSearch extends Component {
                                 type="date" name="startDate"
                                 label="Start date"
                                 required={true}
-                                placeholder="Enter start date"
-                                onfocus={() => {
-                                    this.type = 'date'
-                                }}
-                                onblur={() => {
-                                    this.type = 'text'
-                                }}
+                                value={this.state.form.startDate}
                             />
                         </div>
                         <div className="my-3 col-lg-4">
@@ -107,13 +111,7 @@ class RentSearch extends Component {
                                 type="date" name="endDate"
                                 label="Date of return"
                                 required={true}
-                                placeholder="Enter return date"
-                                onfocus={() => {
-                                    this.type = 'date'
-                                }}
-                                onblur={() => {
-                                    this.type = 'text'
-                                }}
+                                value={this.state.form.endDate}
                             />
                         </div>
                         <div className="col-4 justify-content-center">
@@ -125,8 +123,8 @@ class RentSearch extends Component {
                 <div>
                     {
                         this.state.data && this.state.data.length
-                            ? this.state.data.map(c => <Car key={c.id} car={c}/>)
-                            : <h3 className="text-center">No cars so found :(</h3>
+                            ? this.state.data.map(c => <CarCard key={c.id} car={c}/>)
+                            : <h3 className="text-center">No cars so found</h3>
                     }
                 </div>
                 <hr/>
@@ -138,4 +136,18 @@ class RentSearch extends Component {
 
 }
 
-export default RentSearch;
+const AvailableCarsWithContext = (props) => {
+
+    return (
+        <DatesConsumer>
+            {
+                ({dates, updateDates}) =>(
+                    <CarsAvailable {...props} dates={dates} updateDates={updateDates} />
+                )
+            }
+        </DatesConsumer>
+    )
+
+};
+
+export default  AvailableCarsWithContext;

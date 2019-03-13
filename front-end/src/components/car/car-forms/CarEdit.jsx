@@ -5,6 +5,8 @@ import './CreateCar.css';
 import {carService} from '../../../services'
 import {createCarValidation} from "../../../config/formValidator";
 import {createCarHandler} from "../../../config/formErrorHandler";
+import toastr from "toastr";
+import {withRouter} from "react-router";
 
 
 class CarEdit extends Component {
@@ -38,9 +40,13 @@ class CarEdit extends Component {
         const id = this.props.match.params.id;
 
         carService.getCarById(id)
-            .then(data => {
-                console.log(data);
-                this.setState(data);
+            .then(res => {
+                if (res.success === false) {
+                    toastr.error(res.message);
+                    this.props.history.push('/cars/all')
+                } else {
+                    this.setState(res);
+                }
             })
             .catch(e => {
                 console.log(e);
@@ -57,7 +63,10 @@ class CarEdit extends Component {
         }
 
         carService.editCar(this.state.id, this.state)
-            .then(() => {
+            .then((res) => {
+                if (res.success === false) {
+                    toastr.error(res.message);
+                }
                 this.props.history.push("/cars/all");
             })
             .catch((e) => {
@@ -133,4 +142,4 @@ class CarEdit extends Component {
 
 }
 
-export default CarEdit;
+export default withRouter(CarEdit);

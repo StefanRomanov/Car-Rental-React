@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import authService from "../../services/authService";
 import {Redirect} from "react-router";
-import {UserConsumer, defaultState} from "../contexts/UserContext";
+import {UserConsumer, defaultUserState} from "../../context/UserContext";
 
 class Logout extends Component{
 
     componentDidMount(){
         authService.logout();
 
-        this.props.updateUser(defaultState);
+        this.props.updateUser(defaultUserState);
     }
 
     render() {

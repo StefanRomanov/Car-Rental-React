@@ -1,3 +1,5 @@
+import toastr from "toastr";
+
 function fetcher(method) {
 
     const getAuthHeader =  () => {

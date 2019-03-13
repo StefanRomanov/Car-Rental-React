@@ -5,6 +5,8 @@ import './CreateCar.css';
 import {carService} from '../../../services'
 import {createCarValidation} from '../../../config/formValidator'
 import {createCarHandler} from "../../../config/formErrorHandler";
+import toastr from "toastr";
+import {withRouter} from "react-router";
 
 
 class CreateCar extends Component {
@@ -37,12 +39,15 @@ class CreateCar extends Component {
         e.preventDefault();
         let {brand, model, year, seats, count, trunkCapacity, description, imageUrl, litersPerHundredKilometers, pricePerDay} = this.state;
 
-        if(!createCarHandler(brand, model, count, seats, year, litersPerHundredKilometers, description, imageUrl, trunkCapacity, pricePerDay)){
+        if (!createCarHandler(brand, model, count, seats, year, litersPerHundredKilometers, description, imageUrl, trunkCapacity, pricePerDay)) {
             return;
         }
 
         carService.createCar(this.state)
-            .then(() => {
+            .then((res) => {
+                if (res.success === false) {
+                    toastr.error(res.message);
+                }
                 this.props.history.push("/cars/all")
             })
             .catch((e) => {
@@ -93,7 +98,8 @@ class CreateCar extends Component {
                                 <Input onChange={this.onChange} name="litersPerHundredKilometers"
                                        label="Fuel expense per KM"
                                        type="number" step="0.01"
-                                       value={this.state.litersPerHundredKilometers} valid={validation.validFuelExpense}/>
+                                       value={this.state.litersPerHundredKilometers}
+                                       valid={validation.validFuelExpense}/>
                                 <Input onChange={this.onChange} name="pricePerDay" label="Price per day" type="number"
                                        step="0.01"
                                        value={this.state.pricePerDay} valid={validation.validPrice}/>
@@ -118,4 +124,4 @@ class CreateCar extends Component {
 
 }
 
-export default CreateCar;
+export default withRouter(CreateCar);

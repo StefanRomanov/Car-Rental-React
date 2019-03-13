@@ -6,7 +6,7 @@ import com.server.domain.models.CarsWithinDatesModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.time.LocalDate;
 
 public interface CarService {
     CarCreationBindingModel CreateCar(CarCreationBindingModel model);
@@ -15,4 +15,5 @@ public interface CarService {
     CarViewModel editCar(String id, CarCreationBindingModel model);
     Page<CarViewModel> allCars(Pageable pageable);
     Page<CarViewModel> allAvailableCars(Pageable pageable,CarsWithinDatesModel model);
+    boolean checkAvailability(String id, LocalDate startDate, LocalDate endDate);
 }

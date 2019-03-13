@@ -1,4 +1,4 @@
-import fetcher from "../data/fetcher";
+import fetcher from "./fetcher";
 import config from "../config/server-config";
 
 export default {
@@ -6,7 +6,8 @@ export default {
     getCarById,
     editCar,
     createCar,
-    getAllCars
+    getAllCars,
+    checkAvailability
 
 }
 
@@ -29,4 +30,8 @@ function createCar(body){
 
 function getAllCars(pageString){
     return fetcher.get(config.SERVER_PATH + '/cars/all' + pageString)
+}
+
+function checkAvailability(id ,startDate, endDate){
+    return fetcher.post(config.SERVER_PATH + '/cars/check/' +id, {startDate,endDate})
 }

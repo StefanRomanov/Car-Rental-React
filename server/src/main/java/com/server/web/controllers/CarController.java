@@ -84,4 +84,13 @@ public class CarController {
         rb.setEntity(result);
         return rb;
     }
+
+    @PostMapping("/check/{id}")
+    public ResponseBody checkCarAvailability(@PathVariable String id, @RequestBody CarsWithinDatesModel model){
+        ResponseBody rb = new ResponseBody();
+        rb.setEntity(this.carService.checkAvailability(id,model.getStartDate(), model.getEndDate()));
+
+        return rb;
+    }
+
 }

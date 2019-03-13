@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {rentService} from '../../services/'
 import {withRouter} from "react-router-dom";
+import toastr from "toastr";
 
 
 class RentAdminButtons extends Component {
@@ -15,13 +16,21 @@ class RentAdminButtons extends Component {
 
         if (name === 'approve') {
             rentService.approveRent(this.props.id)
-                .then(() => {
-                    this.props.update();
+                .then(res => {
+                    if (res.success === false) {
+                        toastr.error(res.message);
+                    } else {
+                        this.props.update();
+                    }
                 })
         } else {
             rentService.declineRent(this.props.id)
-                .then(() => {
-                    this.props.update();
+                .then(res => {
+                    if (res.success === false) {
+                        toastr.error(res.message);
+                    } else {
+                        this.props.update();
+                    }
                 })
         }
     }

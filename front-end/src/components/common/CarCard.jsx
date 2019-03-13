@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
-import {Link} from "react-router-dom";
-import {UserConsumer} from "../contexts/UserContext";
+import {Link, withRouter} from "react-router-dom";
+import {UserConsumer} from "../../context/UserContext";
 
 
 const CarCard = (props) => {
@@ -28,7 +28,7 @@ const CarCard = (props) => {
                         <Link className="btn btn-info col-lg-6"
                               to={"/cars/details/" + props.car.id}>Details</Link>
                         {
-                            user.role === 'USER' && (<Link className="btn btn-primary col-lg-6"
+                            user.role === 'USER' && props.location.pathname === '/cars/available' && (<Link className="btn btn-primary col-lg-6"
                                                            to={"/cars/reserve/" + props.car.id}>Reserve</Link>)
                         }
 
@@ -64,4 +64,4 @@ const CarCardWithContext = (props) => {
     )
 };
 
-export default CarCardWithContext;
+export default withRouter(CarCardWithContext);

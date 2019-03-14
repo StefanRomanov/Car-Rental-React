@@ -12,12 +12,14 @@ public class ExceptionModel {
     private String message;
     private HttpStatus status;
     private boolean success;
+    private String debugMessage;
 
-    public ExceptionModel(LocalDateTime timestamp, String message, HttpStatus status, boolean success) {
+    public ExceptionModel(LocalDateTime timestamp, String message, HttpStatus status, boolean success, String debugMessage) {
         this.timestamp = timestamp;
         this.message = message;
         this.status = status;
         this.success = success;
+        this.debugMessage = debugMessage;
     }
 
     public boolean isSuccess() {
@@ -50,5 +52,13 @@ public class ExceptionModel {
 
     public void setStatus(HttpStatus status) {
         this.status = status;
+    }
+
+    public String getDebugMessage() {
+        return debugMessage;
+    }
+
+    public void setDebugMessage(String debugMessage) {
+        this.debugMessage = debugMessage;
     }
 }

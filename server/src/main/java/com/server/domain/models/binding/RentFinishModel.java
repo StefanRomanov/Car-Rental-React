@@ -1,5 +1,6 @@
-package com.server.domain.models;
+package com.server.domain.models.binding;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class RentFinishModel {
@@ -8,6 +9,7 @@ public class RentFinishModel {
     public RentFinishModel() {
     }
 
+    @NotNull
     public LocalDate getDate() {
         return date;
     }

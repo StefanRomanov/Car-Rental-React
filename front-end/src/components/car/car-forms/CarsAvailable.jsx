@@ -75,7 +75,7 @@ class CarsAvailable extends Component {
                     toastr.error(res.message);
                 } else {
                     this.setState({
-                        data: res.entity.content
+                        data: res.content
                     })
                 }
 

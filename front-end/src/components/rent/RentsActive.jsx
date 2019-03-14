@@ -3,6 +3,7 @@ import Rent from "./Rent";
 import {rentService} from '../../services/'
 import Paginator from "../common/Paginator";
 import toastr from "toastr";
+import withPaging from "../hoc/withPaging";
 
 
 class RentsActive extends Component {
@@ -11,14 +12,9 @@ class RentsActive extends Component {
         this.state = {
             data: [],
             loading: true,
-            page: 0,
-            totalPages: 0,
         };
 
         this.updateList = this.updateList.bind(this);
-        this.turnNextPage = this.turnNextPage.bind(this);
-        this.turnPreviousPage = this.turnPreviousPage.bind(this);
-        this.pageChange = this.pageChange.bind(this);
     }
 
     updateList() {
@@ -32,41 +28,25 @@ class RentsActive extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.loading || this.state.page !== prevState.page) {
+        if (this.state.loading || this.props.paging.page !== prevProps.paging.page) {
             this.fetchData();
         }
     }
 
-    turnNextPage() {
-        this.setState({
-            page: this.state.page + 1
-        })
-    }
 
-    turnPreviousPage() {
-        this.setState({
-            page: this.state.page - 1
-        })
-    }
-
-    pageChange(e) {
-        this.setState({
-            page: e.target.value
-        })
-    }
 
     fetchData() {
         if (this.state.loading) {
-            rentService.activeRents('?page=' + this.state.page)
+            rentService.activeRents('?page=' + this.props.paging.page)
                 .then(res => {
                     if (res.success === false) {
                         toastr.error(res.message);
                     } else {
+                        this.props.updatePages(res.totalPages);
                         this.setState({
                             data: res.content,
                             loading: false,
-                            totalPages: res.totalPages
-                        })
+                        });
                     }
                 })
         }
@@ -83,12 +63,12 @@ class RentsActive extends Component {
                     }
                 </div>
                 <hr/>
-                <Paginator nextPage={this.turnNextPage} prevPage={this.turnPreviousPage}
-                           totalPages={this.state.totalPages} page={this.state.page + 1} pageChange={this.pageChange}/>
+                <Paginator nextPage={this.props.nextPage} prevPage={this.props.prevPage}
+                           totalPages={this.props.paging.totalPages} page={this.props.paging.page + 1} pageChange={this.props.pageChange}/>
             </div>
         )
     }
 
 }
 
-export default RentsActive;
+export default withPaging(RentsActive);

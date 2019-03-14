@@ -1,8 +1,8 @@
 package com.server.services;
 
-import com.server.domain.models.CarCreationBindingModel;
-import com.server.domain.models.CarViewModel;
-import com.server.domain.models.CarsWithinDatesModel;
+import com.server.domain.models.binding.CarCreationBindingModel;
+import com.server.domain.models.view.CarViewModel;
+import com.server.domain.models.binding.WithinDatesAndUserNameModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,6 +14,6 @@ public interface CarService {
     boolean deleteById(String id);
     CarViewModel editCar(String id, CarCreationBindingModel model);
     Page<CarViewModel> allCars(Pageable pageable);
-    Page<CarViewModel> allAvailableCars(Pageable pageable,CarsWithinDatesModel model);
+    Page<CarViewModel> allAvailableCars(Pageable pageable, WithinDatesAndUserNameModel model);
     boolean checkAvailability(String id, LocalDate startDate, LocalDate endDate);
 }

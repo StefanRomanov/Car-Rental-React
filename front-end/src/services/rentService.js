@@ -34,7 +34,7 @@ function activeRents(pageString){
 }
 
 function reserve(carId,dates){
-    return fetcher.post(config.SERVER_PATH + "/rents/reserve/" + carId, dates)
+    return fetcher.post(config.SERVER_PATH + "/cars/reserve/" + carId, dates)
 }
 
 function declineRent(id){

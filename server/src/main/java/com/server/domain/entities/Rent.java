@@ -37,6 +37,7 @@ public class Rent extends BaseEntity {
         this.renter = renter;
     }
 
+    @Column(nullable = false)
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -45,6 +46,7 @@ public class Rent extends BaseEntity {
         this.startDate = startDate;
     }
 
+    @Column(nullable = false)
     public LocalDate getEndDate() {
         return endDate;
     }
@@ -55,11 +57,12 @@ public class Rent extends BaseEntity {
 
     public Double calculatePrice(){
 
-        long days = ChronoUnit.DAYS.between(this.getStartDate(),this.getEndDate());
+        long days = ChronoUnit.DAYS.between(this.getStartDate(),this.getEndDate()) + 1;
 
         return days * this.getCar().getPricePerDay();
     }
 
+    @Column(nullable = false)
     public boolean getApproved() {
         return isApproved;
     }

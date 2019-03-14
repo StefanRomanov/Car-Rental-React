@@ -1,9 +1,11 @@
 package com.server.services;
 
 import com.server.domain.entities.Car;
-import com.server.domain.models.CarCreationBindingModel;
-import com.server.domain.models.CarViewModel;
-import com.server.domain.models.CarsWithinDatesModel;
+import com.server.domain.entities.Rent;
+import com.server.domain.models.binding.CarCreationBindingModel;
+import com.server.domain.models.view.CarViewModel;
+import com.server.domain.models.binding.WithinDatesAndUserNameModel;
+import com.server.exceptions.CarHasActiveRentsException;
 import com.server.exceptions.CarNotFoundException;
 import com.server.repositories.CarRepository;
 import com.server.repositories.RentRepository;
@@ -57,7 +59,12 @@ public class CarServiceImpl implements CarService {
             throw new CarNotFoundException();
         }
 
-        car.getActiveRents().forEach(this.rentRepository::delete);
+        if(car.getActiveRents().size() > 0){
+            throw new CarHasActiveRentsException();
+        }
+        for(Rent r : this.rentRepository.findAllByCar(car)){
+            this.rentRepository.delete(r);
+        }
 
         this.carRepository.delete(car);
 
@@ -93,7 +100,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Page<CarViewModel> allAvailableCars(Pageable pageable, CarsWithinDatesModel model) {
+    public Page<CarViewModel> allAvailableCars(Pageable pageable, WithinDatesAndUserNameModel model) {
 
         List<Car> freeCars = this.carRepository.findAll()
                 .stream()

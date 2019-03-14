@@ -44,7 +44,7 @@ class CarCheckForm extends Component {
                     toastr.error(res.message);
                 } else {
                     this.setState({
-                        available: res.entity,
+                        available: res,
                         submitted: true
                     });
                 }

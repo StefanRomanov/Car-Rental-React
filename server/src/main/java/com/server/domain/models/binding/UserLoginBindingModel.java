@@ -1,4 +1,9 @@
-package com.server.domain.models;
+package com.server.domain.models.binding;
+
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class UserLoginBindingModel {
     private String username;
@@ -8,6 +13,8 @@ public class UserLoginBindingModel {
     public UserLoginBindingModel() {
     }
 
+    @NotEmpty
+    @Length(min = 4, max = 15)
     public String getUsername() {
         return username;
     }
@@ -16,6 +23,8 @@ public class UserLoginBindingModel {
         this.username = username;
     }
 
+    @NotEmpty
+    @Length(min = 8, max = 20)
     public String getPassword() {
         return password;
     }

@@ -1,30 +1,34 @@
 package com.server.web.controllers;
 
 import com.server.domain.entities.ResponseBody;
-import com.server.domain.models.CarCreationBindingModel;
-import com.server.domain.models.CarViewModel;
-import com.server.domain.models.CarsWithinDatesModel;
+import com.server.domain.models.binding.CarCreationBindingModel;
+import com.server.domain.models.view.CarViewModel;
+import com.server.domain.models.binding.WithinDatesAndUserNameModel;
+import com.server.domain.models.view.RentViewModel;
 import com.server.services.CarService;
+import com.server.services.RentService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/cars")
 public class CarController {
 
     private final CarService carService;
+    private final RentService rentService;
 
-    public CarController(CarService carService) {
+    public CarController(CarService carService, RentService rentService) {
         this.carService = carService;
+        this.rentService = rentService;
     }
 
     @PostMapping(value = "/create", produces = "application/json", consumes = "application/json")
-    public ResponseBody createCar(@RequestBody CarCreationBindingModel model){
+    public ResponseBody createCar(@RequestBody @Valid CarCreationBindingModel model){
         ResponseBody responseBody = new ResponseBody();
         responseBody.setMessage("Car created !");
         responseBody.setEntity(this.carService.CreateCar(model));
@@ -37,56 +41,43 @@ public class CarController {
     }
 
     @PostMapping("/edit/{id}")
-    public ResponseBody editCar(@PathVariable("id") String id, @RequestBody CarCreationBindingModel model, HttpServletResponse response) throws IOException {
-        CarViewModel car = this.carService.editCar(id,model);
+    public CarViewModel editCar(@PathVariable("id") String id, @RequestBody @Valid CarCreationBindingModel model, HttpServletResponse response) throws IOException {
 
-        if(car == null){
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Car with id " + id + "not found !");
-        }
+        return this.carService.editCar(id,model);
+    }
 
-        ResponseBody rb = new ResponseBody();
-        rb.setMessage("Car with id" + id +" successfully edited !");
-        rb.setEntity(car);
+    @PostMapping("/reserve/{id}")
+    public RentViewModel reserveCar(@RequestBody @Valid WithinDatesAndUserNameModel model, @PathVariable String id){
 
-        return rb;
+        return rentService.createRent(model,id);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseBody deleteById(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
+    public ResponseBody deleteById(@PathVariable("id") String id){
         ResponseBody rb = new ResponseBody();
 
         if(this.carService.deleteById(id)){
-            rb.setMessage("Car with " + id + "deleted !");
-            rb.setEntity(id);
+            rb.setMessage("Car with " + id + " deleted !");
         } else {
-            rb.setMessage("Car with id " + id + "not found !");
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Car with id " + id + "not found !");
+            rb.setMessage("Car with " + id + " not deleted !");
         }
 
         return rb;
     }
 
     @GetMapping("/all")
-    public ResponseBody allCars(Pageable pageable){
-        ResponseBody rb = new ResponseBody();
-        Page<CarViewModel> result = this.carService.allCars(pageable);
+    public Page<CarViewModel> allCars(Pageable pageable){
 
-        rb.setEntity(result);
-        return rb;
+        return this.carService.allCars(pageable);
     }
 
     @PostMapping("/available")
-    public ResponseBody availableCars(Pageable pageable, @RequestBody CarsWithinDatesModel model){
-
-        ResponseBody rb = new ResponseBody();
-        Page<CarViewModel> result = this.carService.allAvailableCars(pageable,model);
-
-        rb.setEntity(result);
-        return rb;
+    public Page<CarViewModel> availableCars(Pageable pageable, @RequestBody @Valid WithinDatesAndUserNameModel model){
+        return this.carService.allAvailableCars(pageable,model);
     }
 
     @PostMapping("/check/{id}")
-    public ResponseBody checkCarAvailability(@PathVariable String id, @RequestBody CarsWithinDatesModel model){
+    public ResponseBody checkCarAvailability(@PathVariable String id, @RequestBody @Valid WithinDatesAndUserNameModel model){
         ResponseBody rb = new ResponseBody();
         rb.setEntity(this.carService.checkAvailability(id,model.getStartDate(), model.getEndDate()));
 

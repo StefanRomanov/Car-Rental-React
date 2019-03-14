@@ -4,6 +4,8 @@ import CarInformation from "./car-details/CarInformation";
 import {Redirect, withRouter} from "react-router";
 import {DatesConsumer} from "../../context/DatesContext";
 import toastr from "toastr";
+import {UserConsumer} from "../../context/UserContext";
+import {Link} from "react-router-dom";
 
 
 class ReserveCar extends Component {
@@ -27,11 +29,13 @@ class ReserveCar extends Component {
 
 
     onClick() {
-
         const {startDate, endDate} = this.props.dates;
+        const {username} = this.props.user;
 
-        rentService.reserve(this.state.id, {startDate,endDate})
-            .then(data => {
+        console.log(username)
+
+        rentService.reserve(this.state.id, {startDate,endDate,username})
+            .then(res => {
                 this.setState({
                     submitted: true
                 })
@@ -74,6 +78,7 @@ class ReserveCar extends Component {
                 <div className="row justify-content-center my-3">
                     <button className="btn btn-info mx-3 text-white w-25"
                          onClick={this.onClick}>Reserve</button>
+                    <Link to="/cars/all" className="btn btn-danger mx-3 text-white w-25">Cancel</Link>
                 </div>
             </div>
         )
@@ -84,15 +89,26 @@ class ReserveCar extends Component {
 const ReserveCarWithContext = (props) => {
 
     return (
-        <DatesConsumer>
-            {
-                ({dates}) =>(
-                    <ReserveCar {...props} dates={dates} />
-                )
-            }
-        </DatesConsumer>
+            <DatesConsumer>
+                {
+                    ({dates}) =>(
+                        <ReserveCar {...props} dates={dates} />
+                    )
+                }
+            </DatesConsumer>
     )
-
 };
 
-export default withRouter(ReserveCarWithContext);
+const ReserveCarWithBothContexts = (props) => {
+    return (
+        <UserConsumer>
+            {
+                ({user}) =>(
+                    <ReserveCarWithContext {...props} user={user} />
+                )
+            }
+        </UserConsumer>
+    )
+};
+
+export default withRouter(ReserveCarWithBothContexts);

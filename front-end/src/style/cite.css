@@ -156,3 +156,13 @@ pre{
 .toast-success {
     background: forestgreen;
 }
+
+.sale-row{
+    height: 100px;
+}
+
+pre{
+    white-space: pre-wrap;
+    text-align: justify;
+    overflow-y: auto;
+}

@@ -25,6 +25,7 @@ public class Car extends BaseEntity{
         this.activeRents = new HashSet<>();
     }
 
+    @Column(nullable = false)
     public String getBrand() {
         return brand;
     }
@@ -33,6 +34,7 @@ public class Car extends BaseEntity{
         this.brand = brand;
     }
 
+    @Column(nullable = false)
     public String getModel() {
         return model;
     }
@@ -42,6 +44,7 @@ public class Car extends BaseEntity{
     }
 
     @Lob
+    @Column(nullable = false)
     public String getDescription() {
         return description;
     }
@@ -50,6 +53,7 @@ public class Car extends BaseEntity{
         this.description = description;
     }
 
+    @Column(nullable = false)
     public Integer getTrunkCapacity() {
         return trunkCapacity;
     }
@@ -58,6 +62,7 @@ public class Car extends BaseEntity{
         this.trunkCapacity = trunkCapacity;
     }
 
+    @Column(nullable = false)
     public Integer getYear() {
         return year;
     }
@@ -66,6 +71,7 @@ public class Car extends BaseEntity{
         this.year = year;
     }
 
+    @Column(nullable = false)
     public Integer getSeats() {
         return seats;
     }
@@ -74,6 +80,7 @@ public class Car extends BaseEntity{
         this.seats = seats;
     }
 
+    @Column(nullable = false)
     public String getImageUrl() {
         return imageUrl;
     }
@@ -82,6 +89,7 @@ public class Car extends BaseEntity{
         this.imageUrl = imageUrl;
     }
 
+    @Column(nullable = false)
     public Double getLitersPerHundredKilometers() {
         return litersPerHundredKilometers;
     }
@@ -90,6 +98,7 @@ public class Car extends BaseEntity{
         this.litersPerHundredKilometers = litersPerHundredKilometers;
     }
 
+    @Column(nullable = false)
     public Double getPricePerDay() {
         return pricePerDay;
     }
@@ -98,6 +107,7 @@ public class Car extends BaseEntity{
         this.pricePerDay = pricePerDay;
     }
 
+    @Column(nullable = false)
     public Integer getCount() {
         return count;
     }
@@ -106,7 +116,7 @@ public class Car extends BaseEntity{
         this.count = count;
     }
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany
     public Set<Rent> getActiveRents() {
         return activeRents;
     }

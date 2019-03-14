@@ -1,8 +1,8 @@
 package com.server.config;
 
 import com.server.domain.entities.Rent;
-import com.server.domain.models.CarViewModel;
-import com.server.domain.models.RentViewModel;
+import com.server.domain.models.view.CarViewModel;
+import com.server.domain.models.view.RentViewModel;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;

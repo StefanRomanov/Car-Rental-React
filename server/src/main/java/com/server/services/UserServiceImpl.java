@@ -2,7 +2,8 @@ package com.server.services;
 
 import com.server.domain.entities.User;
 import com.server.domain.entities.UserRole;
-import com.server.domain.models.UserRegisterBindingModel;
+import com.server.domain.models.binding.UserRegisterBindingModel;
+import com.server.exceptions.UserNotFoundException;
 import com.server.repositories.UserRepository;
 import com.server.repositories.UserRoleRepository;
 import org.modelmapper.ModelMapper;
@@ -31,7 +32,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return this.userRepository.getFirstByUsername(s);
+        User user = this.userRepository.getFirstByUsername(s);
+
+        if(user == null){
+            throw new UserNotFoundException();
+        }
+        return user;
     }
 
 

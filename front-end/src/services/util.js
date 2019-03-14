@@ -13,4 +13,10 @@ function getCurrentDate() {
     return new Date().toISOString().split('T')[0];
 }
 
-export default {getDaysBetween, getCurrentDate};
+function formatDate(dateString) {
+    let date = new Date(dateString);
+
+    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+}
+
+export default {getDaysBetween, getCurrentDate, formatDate};

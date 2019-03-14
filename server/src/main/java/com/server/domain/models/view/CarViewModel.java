@@ -1,4 +1,4 @@
-package com.server.domain.models;
+package com.server.domain.models.view;
 
 public class CarViewModel {
 

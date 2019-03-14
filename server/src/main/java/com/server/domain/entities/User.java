@@ -17,7 +17,7 @@ public class User extends BaseEntity implements UserDetails {
     private String password;
     private Set<UserRole> authorities;
     private Set<Rent> rents;
-    private Set<Receipt> receipts;
+    private Set<Sale> sales;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
@@ -28,7 +28,7 @@ public class User extends BaseEntity implements UserDetails {
     public User() {
         this.authorities = new HashSet<>();
         this.rents = new HashSet<>();
-        this.receipts = new HashSet<>();
+        this.sales = new HashSet<>();
     }
 
     @Override
@@ -41,6 +41,7 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @Override
+    @Column(unique = true, nullable = false)
     public String getUsername() {
         return this.username;
     }
@@ -49,6 +50,7 @@ public class User extends BaseEntity implements UserDetails {
         this.password = password;
     }
 
+    @Column(unique = true, nullable = false)
     public String getEmail() {
         return email;
     }
@@ -67,12 +69,12 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @OneToMany(mappedBy = "buyer")
-    public Set<Receipt> getReceipts() {
-        return receipts;
+    public Set<Sale> getSales() {
+        return sales;
     }
 
-    public void setReceipts(Set<Receipt> receipts) {
-        this.receipts = receipts;
+    public void setSales(Set<Sale> sales) {
+        this.sales = sales;
     }
 
     @Override

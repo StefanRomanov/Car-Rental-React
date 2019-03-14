@@ -2,7 +2,7 @@ package com.server.web.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.domain.entities.User;
-import com.server.domain.models.UserLoginBindingModel;
+import com.server.domain.models.binding.UserLoginBindingModel;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,9 +55,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String token = Jwts.builder()
                 .setSubject(user.getUsername())
-                .setExpiration(new Date(System.currentTimeMillis() + 30000))
+                .setExpiration(new Date(System.currentTimeMillis() + 1800000 ))
                 .claim("role", authority)
-                .signWith(SignatureAlgorithm.HS256, "Secret".getBytes())
+                .signWith(SignatureAlgorithm.HS256, "48433e39-e610-4a2c-926c-f86d46f5360a".getBytes())
                 .compact();
 
 

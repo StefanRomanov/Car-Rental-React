@@ -1,14 +1,15 @@
 package com.server.services;
 
 import com.server.domain.entities.Car;
-import com.server.domain.entities.Receipt;
 import com.server.domain.entities.Rent;
-import com.server.domain.models.CarsWithinDatesModel;
-import com.server.domain.models.RentCreateBindingModel;
-import com.server.domain.models.RentViewModel;
+import com.server.domain.entities.User;
+import com.server.domain.models.binding.WithinDatesAndUserNameModel;
+import com.server.domain.models.binding.RentCreateBindingModel;
+import com.server.domain.models.view.RentViewModel;
+import com.server.exceptions.CarNotFoundException;
 import com.server.exceptions.RentNotFoundException;
+import com.server.exceptions.UserNotFoundException;
 import com.server.repositories.CarRepository;
-import com.server.repositories.ReceiptRepository;
 import com.server.repositories.RentRepository;
 import com.server.util.PageMapper;
 import org.modelmapper.ModelMapper;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 @Service
 @Transactional
@@ -27,21 +27,34 @@ public class RentServiceImpl implements RentService {
     private final ModelMapper modelMapper;
     private final RentRepository rentRepository;
     private final CarRepository carRepository;
-    private final ReceiptRepository receiptRepository;
+    private final SaleService saleService;
+    private final UserService userService;
 
-    public RentServiceImpl(ModelMapper modelMapper, RentRepository rentRepository, CarRepository carRepository, ReceiptRepository receiptRepository) {
+    public RentServiceImpl(ModelMapper modelMapper, RentRepository rentRepository, CarRepository carRepository, SaleService saleService, UserService userService) {
         this.modelMapper = modelMapper;
         this.rentRepository = rentRepository;
         this.carRepository = carRepository;
-        this.receiptRepository = receiptRepository;
+        this.saleService = saleService;
+        this.userService = userService;
     }
 
     @Override
-    public RentViewModel createRent(CarsWithinDatesModel model, String carId) {
+    public RentViewModel createRent(WithinDatesAndUserNameModel model, String carId) {
         RentCreateBindingModel rentModel = this.modelMapper.map(model,RentCreateBindingModel.class);
+
         Car car = this.carRepository.findFirstById(carId);
+
+        if(car == null){
+            throw new CarNotFoundException();
+        }
+
+        User user = (User) this.userService.loadUserByUsername(model.getUsername());
+        if(user == null){
+            throw new UserNotFoundException();
+        }
+
         rentModel.setApproved(false);
-        //TODO: ADD USER
+        rentModel.setRenter(user);
         rentModel.setCar(car);
 
         Rent rent = this.modelMapper.map(rentModel, Rent.class);
@@ -74,7 +87,7 @@ public class RentServiceImpl implements RentService {
 
         rent.setApproved(true);
 
-        this.receiptRepository.save(createReceipt(rent));
+        this.saleService.createApprovedSale(rent);
         this.rentRepository.saveAndFlush(rent);
         return true;
     }
@@ -88,7 +101,10 @@ public class RentServiceImpl implements RentService {
             throw new RentNotFoundException();
         }
 
+        this.saleService.createDeclinedSale(rent);
+
         rent.getCar().getActiveRents().remove(rent);
+
         this.rentRepository.delete(rent);
 
         return true;
@@ -104,32 +120,14 @@ public class RentServiceImpl implements RentService {
         }
 
         rent.getCar().getActiveRents().remove(rent);
+
         rent.setFinished(true);
 
+        rentRepository.saveAndFlush(rent);
+
         if(returnDate.isAfter(rent.getEndDate())){
-            this.createPenaltyReceipt(rent,returnDate);
+            this.saleService.createPenaltySale(rent,returnDate);
         }
         return true;
-    }
-
-
-
-    private Receipt createReceipt(Rent rent){
-        Receipt receipt = new Receipt();
-
-        receipt.setBuyer(rent.getRenter());
-        receipt.setDate(LocalDate.now());
-        receipt.setCarBrand(rent.getCar().getBrand());
-        receipt.setCarModel(rent.getCar().getModel());
-        receipt.setPricePaid(rent.calculatePrice());
-
-        return receipt;
-    }
-
-    private void createPenaltyReceipt(Rent rent, LocalDate returnDate){
-        long days = ChronoUnit.DAYS.between(rent.getEndDate(),returnDate) + 1;
-        Receipt receipt = createReceipt(rent);
-        receipt.setPricePaid(rent.getCar().getPricePerDay() * days);
-        this.receiptRepository.saveAndFlush(receipt);
     }
 }

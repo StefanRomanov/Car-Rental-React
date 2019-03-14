@@ -1,7 +1,6 @@
 import fetcher from "./fetcher";
 import config from "../config/server-config";
 import decode from 'jwt-decode';
-import toastr from "toastr";
 
 export default {
     login,

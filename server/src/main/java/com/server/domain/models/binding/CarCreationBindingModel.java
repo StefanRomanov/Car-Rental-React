@@ -1,6 +1,16 @@
-package com.server.domain.models;
+package com.server.domain.models.binding;
+
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class CarCreationBindingModel {
+
+
+
     private String brand;
     private String model;
     private Integer trunkCapacity;
@@ -15,6 +25,8 @@ public class CarCreationBindingModel {
     public CarCreationBindingModel() {
     }
 
+
+    @Length(min=3,max = 15)
     public String getBrand() {
         return brand;
     }
@@ -23,6 +35,8 @@ public class CarCreationBindingModel {
         this.brand = brand;
     }
 
+
+    @Length(min=1,max = 15)
     public String getModel() {
         return model;
     }
@@ -31,6 +45,7 @@ public class CarCreationBindingModel {
         this.model = model;
     }
 
+    @Length(min=10, max=500)
     public String getDescription() {
         return description;
     }
@@ -39,6 +54,8 @@ public class CarCreationBindingModel {
         this.description = description;
     }
 
+    @NotNull
+    @Min(1)
     public Integer getTrunkCapacity() {
         return trunkCapacity;
     }
@@ -47,6 +64,8 @@ public class CarCreationBindingModel {
         this.trunkCapacity = trunkCapacity;
     }
 
+    @NotNull
+    @Min(1)
     public Integer getSeats() {
         return seats;
     }
@@ -55,6 +74,8 @@ public class CarCreationBindingModel {
         this.seats = seats;
     }
 
+    @NotNull
+    @Min(1)
     public Integer getYear() {
         return year;
     }
@@ -63,6 +84,8 @@ public class CarCreationBindingModel {
         this.year = year;
     }
 
+    @NotEmpty
+    @Length(min = 14)
     public String getImageUrl() {
         return imageUrl;
     }
@@ -71,6 +94,8 @@ public class CarCreationBindingModel {
         this.imageUrl = imageUrl;
     }
 
+    @NotNull
+    @DecimalMin("0.1")
     public Double getLitersPerHundredKilometers() {
         return litersPerHundredKilometers;
     }
@@ -79,6 +104,8 @@ public class CarCreationBindingModel {
         this.litersPerHundredKilometers = litersPerHundredKilometers;
     }
 
+    @NotNull
+    @DecimalMin("0.1")
     public Double getPricePerDay() {
         return pricePerDay;
     }
@@ -87,6 +114,8 @@ public class CarCreationBindingModel {
         this.pricePerDay = pricePerDay;
     }
 
+    @NotNull
+    @Min(1)
     public Integer getCount() {
         return count;
     }

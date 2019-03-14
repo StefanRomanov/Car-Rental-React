@@ -16,33 +16,43 @@ const CarInformation = (props) => {
                     <h1>{props.data.brand} {props.data.model}</h1>
                     <h3>Year: {props.data.year}</h3>
                     {
-                        props.location.pathname.startsWith('/cars/reserve')  ? (
+                        props.location.pathname.startsWith('/cars/reserve') ? (
                             <Fragment>
                                 <br/>
                                 <h2>Rent Information</h2>
                                 <hr/>
-                                <h4>
-                                    Start date
-                                </h4>
-                                <div>{startDate}</div>
-                                <h4>
-                                    End date
-                                </h4>
-                                <div>{endDate}</div>
-                                <h4>
-                                    Total price
-                                </h4>
-                                <div>${days * props.data.pricePerDay}</div>
+                                <div className='table-responsive h-75'>
+                                    <table className="m-3 align-self-center">
+                                        <tbody>
+                                        <tr>
+                                            <td className="font-weight-bold">Start date</td>
+                                            <td>{util.formatDate(startDate)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold">End date</td>
+                                            <td>{util.formatDate(endDate)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold">Total price</td>
+                                            <td>${days * props.data.pricePerDay}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </Fragment>
-                            ) : (
-                            <Fragment>
-                                <h2>Description</h2>
-                                < pre className="text-wrap pre-scrollable">
-                                        {props.data.description}
+                        ) : (
+                            <div className=''>
+                                <hr/>
+                                <pre>
+                                        <p>{props.data.description}</p>
                                 </pre>
-                                <h2>Price per day</h2>
-                                <div>{props.data.pricePerDay}</div>
-                            </Fragment>
+                                <hr/>
+                                <div className='float-right ml-3'>
+                                    <h5>Price: ${props.data.pricePerDay}/Day</h5>
+                                </div>
+
+                            </div>
                         )
                     }
                 </div>
@@ -56,14 +66,15 @@ const CarInformation = (props) => {
                              alt=""/>
                     </div>
                     <div className="col-md-12 app-bg-fourth table-responsive rounded shadow">
-                        <h2 className="font-weight-bold">Technical data</h2>
+                        <h2 className="font-weight-bold mt-2">Technical data</h2>
+                        <hr/>
                         <table className="m-3 align-self-center">
                             <tbody>
                             <tr>
                                 <td className="font-weight-bold">Make</td>
                                 <td>{props.data.brand}</td>
                                 <td className="font-weight-bold">Seats</td>
-                                <td>5</td>
+                                <td>{props.data.seats}</td>
                             </tr>
                             <tr>
                                 <td className="font-weight-bold">Model</td>
@@ -78,12 +89,12 @@ const CarInformation = (props) => {
                                 <td>Gasoline</td>
                                 <td className="font-weight-bold">Trunk capacity</td>
                                 <td>
-                                    <span><span>281</span> l</span>
+                                    <span><span>{props.data.trunkCapacity}</span> l</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td className="font-weight-bold">Year</td>
-                                <td>2016</td>
+                                <td>{props.data.year}</td>
                                 <td className="font-weight-bold">Doors</td>
                                 <td>5</td>
                             </tr>
@@ -101,8 +112,8 @@ const CarInformationWithContext = (props) => {
     return (
         <DatesConsumer>
             {
-                ({dates}) =>(
-                    <CarInformation {...props} dates={dates} />
+                ({dates}) => (
+                    <CarInformation {...props} dates={dates}/>
                 )
             }
         </DatesConsumer>

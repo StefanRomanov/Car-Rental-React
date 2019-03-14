@@ -57,7 +57,7 @@ class CarDetails extends Component {
         const {user} = this.props;
 
         return (
-            <div className='container col-lg-11'>
+            <div className='container col-lg-11 h-75'>
                 <div className='row justify-content-center'>
                     {
                         user.role === 'USER' ? (

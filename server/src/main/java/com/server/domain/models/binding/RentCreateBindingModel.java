@@ -1,18 +1,22 @@
-package com.server.domain.models;
+package com.server.domain.models.binding;
 
 import com.server.domain.entities.Car;
+import com.server.domain.entities.User;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class RentCreateBindingModel {
     private LocalDate startDate;
     private LocalDate endDate;
     private Car car;
+    private User renter;
     private boolean isApproved;
 
     public RentCreateBindingModel() {
     }
 
+    @NotNull
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -21,6 +25,7 @@ public class RentCreateBindingModel {
         this.startDate = startDate;
     }
 
+    @NotNull
     public LocalDate getEndDate() {
         return endDate;
     }
@@ -43,5 +48,13 @@ public class RentCreateBindingModel {
 
     public void setApproved(boolean approved) {
         isApproved = approved;
+    }
+
+    public User getRenter() {
+        return renter;
+    }
+
+    public void setRenter(User renter) {
+        this.renter = renter;
     }
 }

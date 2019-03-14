@@ -5,6 +5,7 @@ import SearchInput from '../common/SearchInput'
 import {carService} from '../../services'
 import Paginator from "../common/Paginator";
 import toastr from "toastr";
+import withPaging from "../hoc/withPaging";
 
 
 class Cars extends Component {
@@ -13,13 +14,7 @@ class Cars extends Component {
 
         this.state = {
             cars: [],
-            page: 0,
-            totalPages: 0
         };
-
-        this.turnNextPage = this.turnNextPage.bind(this);
-        this.turnPreviousPage = this.turnPreviousPage.bind(this);
-        this.pageChange = this.pageChange.bind(this);
     }
 
     componentDidMount() {
@@ -28,38 +23,20 @@ class Cars extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(this.state.page !== prevState.page){
+        if(this.props.paging.page !== prevProps.paging.page){
             this.fetchData()
         }
     }
 
-    turnNextPage() {
-        this.setState({
-            page: this.state.page + 1
-        })
-    }
-
-    turnPreviousPage() {
-        this.setState({
-            page: this.state.page - 1
-        })
-    }
-
-    pageChange(e) {
-        this.setState({
-            page: e.target.value
-        })
-    }
-
     fetchData(){
-        carService.getAllCars('?page=' + this.state.page)
+        carService.getAllCars('?page=' + this.props.paging.page)
             .then(res => {
                 if (res.success === false) {
                     toastr.error(res.message);
                 } else {
+                    this.props.updatePages(res.totalPages);
                     this.setState({
-                        cars: res.entity.content,
-                        totalPages: res.entity.totalPages
+                        cars: res.content,
                     });
                 }
             })
@@ -82,12 +59,12 @@ class Cars extends Component {
                     }
                 </div>
                 <hr/>
-                <Paginator nextPage={this.turnNextPage} prevPage={this.turnPreviousPage}
-                           totalPages={this.state.totalPages} page={this.state.page + 1} pageChange={this.pageChange}/>
+                <Paginator nextPage={this.props.nextPage} prevPage={this.props.prevPage}
+                           totalPages={this.props.paging.totalPages} page={this.props.paging.page + 1} pageChange={this.props.pageChange}/>
             </div>
         )
     }
 
 }
 
-export default Cars;
+export default withPaging(Cars);

@@ -31,8 +31,9 @@ const Navigation = (props) => {
                                                     </Fragment>
                                                 )
                                                 : (<Fragment>
-                                                        <NavLink to="/purchases" className="nav-link">Purchases</NavLink>
+
                                                         <NavLink to="/cars/available" className="nav-link">Available Cars</NavLink>
+                                                        <NavLink to={'/sales/all/' + user.username} className="nav-link">My Purchases</NavLink>
                                                     </Fragment>
                                                 )
                                         }
@@ -42,9 +43,9 @@ const Navigation = (props) => {
                                 : (
                                     <Fragment>
                                         <NavLink to="/cars/all" className="nav-link">All Cars</NavLink>
+                                        <NavLink to="/cars/available" className="nav-link">Available Cars</NavLink>
                                         <NavLink to="/login" className="nav-link">Login</NavLink>
                                         <NavLink to="/register" className="nav-link">Register</NavLink>
-                                        <NavLink to="/cars/available" className="nav-link">Available Cars</NavLink>
                                     </Fragment>
                                 )
 

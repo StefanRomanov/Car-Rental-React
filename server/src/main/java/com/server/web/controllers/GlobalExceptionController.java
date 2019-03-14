@@ -25,7 +25,7 @@ public class GlobalExceptionController extends ResponseEntityExceptionHandler {
                 ? e.getClass().getAnnotation(ResponseStatus.class).value()
                 : HttpStatus.INTERNAL_SERVER_ERROR;
 
-        ExceptionModel exception = new ExceptionModel(LocalDateTime.now(),message,status, false);
+        ExceptionModel exception = new ExceptionModel(LocalDateTime.now(),message,status, false, e.getMessage());
 
         return new ResponseEntity<>(exception, status);
     }

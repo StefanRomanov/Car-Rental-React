@@ -1,16 +1,15 @@
 package com.server.web.controllers;
 
 import com.server.domain.entities.ResponseBody;
-import com.server.domain.models.CarsWithinDatesModel;
-import com.server.domain.models.RentFinishModel;
-import com.server.domain.models.RentViewModel;
+import com.server.domain.models.binding.RentFinishModel;
+import com.server.domain.models.view.RentViewModel;
 import com.server.services.RentService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/rents")
@@ -23,16 +22,7 @@ public class RentController {
     }
 
 
-    @PostMapping("/reserve/{id}")
-    public ResponseBody reserveCar(@RequestBody CarsWithinDatesModel model, @PathVariable String id){
-        RentViewModel result = rentService.createRent(model,id);
 
-        ResponseBody rb = new ResponseBody();
-        rb.setMessage("Rent created !");
-        rb.setEntity(result);
-
-        return rb;
-    }
 
     @GetMapping("/approved")
     public Page<RentViewModel> allApproved(Pageable pageable){
@@ -50,6 +40,7 @@ public class RentController {
     @PostMapping("/approve/{id}")
     public ResponseBody approveRent(@PathVariable String id){
         ResponseBody rb = new ResponseBody();
+
         boolean result = this.rentService.approveRent(id);
 
         if(result){
@@ -76,7 +67,7 @@ public class RentController {
     }
 
     @PostMapping("/finish/{id}")
-    public ResponseBody finishRent(@PathVariable String id, @RequestBody RentFinishModel model){
+    public ResponseBody finishRent(@PathVariable String id, @RequestBody @Valid RentFinishModel model){
 
         ResponseBody rb = new ResponseBody();
         boolean result = this.rentService.finishRent(model.getDate(),id);
@@ -84,7 +75,7 @@ public class RentController {
         if(result){
             rb.setMessage("Rent" + id + "finished !");
         } else {
-            rb.setMessage("Didn't finish failed !");
+            rb.setMessage("Rent finish failed !");
         }
 
         return rb;

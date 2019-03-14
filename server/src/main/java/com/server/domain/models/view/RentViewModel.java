@@ -1,4 +1,6 @@
-package com.server.domain.models;
+package com.server.domain.models.view;
+
+import com.server.domain.models.view.CarViewModel;
 
 import java.time.LocalDate;
 

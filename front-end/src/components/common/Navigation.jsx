@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Fragment} from 'react';
 
 import './Navigation.css';
 import {NavLink} from "react-router-dom";
@@ -15,44 +15,45 @@ const Navigation = (props) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12 justify-content-between">
-                            <NavLink to="/" exact className="navbar-brand nav-link"><h3>Rento</h3></NavLink>
+                            <NavLink to="/" exact className="navbar-brand nav-link"><h3>RentCar</h3></NavLink>
+                            <NavLink to="/cars/all" className="nav-link font-weight-bold">Car Fleet</NavLink>
                             {user.isLoggedIn ?
                                 (
                                     <Fragment>
-                                        <NavLink to="/cars/all" className="nav-link">All Cars</NavLink>
                                         {
                                             user.role === 'ADMIN' ? (
                                                     <Fragment>
-                                                        <NavLink to="/cars/create" className="nav-link">Create Car</NavLink>
-                                                        <NavLink to="/rents/pending" className="nav-link">Pending
+                                                        <NavLink to="/cars/create" className="nav-link font-weight-bold">Add
+                                                            Car</NavLink>
+                                                        <NavLink to="/rents/pending" className="nav-link font-weight-bold">Pending
                                                             Rents</NavLink>
-                                                        <NavLink to="/rents/active" className="nav-link">Active
+                                                        <NavLink to="/rents/active" className="nav-link font-weight-bold">Active
                                                             Rents</NavLink>
                                                     </Fragment>
                                                 )
-                                                : (<Fragment>
-
-                                                        <NavLink to="/cars/available" className="nav-link">Available Cars</NavLink>
-                                                        <NavLink to={'/sales/all/' + user.username} className="nav-link">My Purchases</NavLink>
+                                                : (
+                                                    <Fragment>
+                                                        <NavLink to="/cars/available" className="nav-link font-weight-bold">Available
+                                                            Cars</NavLink>
+                                                        <NavLink to={'/sales/all/' + user.username}
+                                                                 className="nav-link font-weight-bold">My
+                                                            Purchases</NavLink>
                                                     </Fragment>
                                                 )
                                         }
-                                        <NavLink to="/logout" className="nav-link">Logout</NavLink>
+                                        <NavLink to="/logout" className="nav-link font-weight-bold">Logout</NavLink>
+                                        <span
+                                            className="font-weight-bold text-white mr-auto">Hello, {user.username}!</span>
+
                                     </Fragment>
                                 )
                                 : (
                                     <Fragment>
-                                        <NavLink to="/cars/all" className="nav-link">All Cars</NavLink>
-                                        <NavLink to="/cars/available" className="nav-link">Available Cars</NavLink>
-                                        <NavLink to="/login" className="nav-link">Login</NavLink>
-                                        <NavLink to="/register" className="nav-link">Register</NavLink>
+                                        <NavLink to="/register" className="nav-link font-weight-bold">Register</NavLink>
+                                        <NavLink to="/login" className="nav-link font-weight-bold">Login</NavLink>
                                     </Fragment>
                                 )
-
                             }
-
-
-                            <span className="font-weight-bold">Hello, {user.username}!</span>
                         </div>
                     </div>
                 </div>

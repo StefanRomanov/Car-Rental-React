@@ -2,11 +2,13 @@ import React, {Component, Fragment} from 'react';
 import Input from "../../common/Input";
 import {carService} from "../../../services";
 import {DatesConsumer} from "../../../context/DatesContext";
+import {dateValidation} from "../../../config/formValidator";
 import {withRouter} from "react-router";
 import toastr from "toastr";
 import util from '../../../services/util'
+import {dateHandler} from "../../../config/formErrorHandler";
 
-class CarCheckForm extends Component {
+class CarCheckAvailability extends Component {
 
     constructor(props) {
         super(props);
@@ -29,16 +31,21 @@ class CarCheckForm extends Component {
         })
     }
 
-    onReserveClick(){
+    onReserveClick() {
         const {startDate, endDate} = this.state;
-        this.props.updateDates({startDate,endDate});
-        this.props.history.push('/cars/reserve/'+ this.props.id);
+        this.props.updateDates({startDate, endDate});
+        this.props.history.push('/cars/reserve/' + this.props.id);
     }
 
     onSubmit(e) {
         e.preventDefault();
+        const {startDate, endDate} = this.state;
 
-        carService.checkAvailability(this.props.id, this.state.startDate, this.state.endDate)
+        if(!dateHandler(startDate,endDate)){
+            return
+        }
+
+        carService.checkAvailability(this.props.id, startDate, endDate)
             .then(res => {
                 if (res.success === false) {
                     toastr.error(res.message);
@@ -58,6 +65,7 @@ class CarCheckForm extends Component {
     render() {
 
         const {startDate, endDate, submitted, available} = this.state;
+        const validation = dateValidation(startDate,endDate);
 
         return (
             <div className='container col-lg-2 mt-5'>
@@ -65,9 +73,15 @@ class CarCheckForm extends Component {
                     <form onSubmit={this.onSubmit}>
                         <div className='row space-top justify-content-center'>
                             <div className='col-lg-10'>
-                                <Input type='date' value={startDate} name='startDate'
-                                       onChange={this.onChange}/>
-                                <Input type='date' value={endDate} name='endDate' onChange={this.onChange}/>
+                                <Input type='date'
+                                       value={startDate}
+                                       name='startDate'
+                                       onChange={this.onChange}
+                                       valid={validation.validStartDate}/>
+                                <Input type='date'
+                                       value={endDate} name='endDate'
+                                       onChange={this.onChange}
+                                       valid={validation.validEndDate}/>
                                 <button type='submit' className='btn btn-success form-control shadow'>Check Availability
                                 </button>
                             </div>
@@ -85,8 +99,9 @@ class CarCheckForm extends Component {
                                                 </div>
                                             </div>
                                             <div className='container mt-5 w-85 align-items-center'>
-                                                <button className='btn bg-info w-100 shadow text-white btn-outline-light'
-                                                        onClick={this.onReserveClick}>
+                                                <button
+                                                    className='btn bg-info w-100 shadow text-white btn-outline-light'
+                                                    onClick={this.onReserveClick}>
                                                     Reserve
                                                 </button>
                                             </div>
@@ -114,7 +129,7 @@ const CarCheckFormWithContext = (props) => {
         <DatesConsumer>
             {
                 ({dates, updateDates}) => (
-                    <CarCheckForm {...props} dates={dates} updateDates={updateDates}/>
+                    <CarCheckAvailability {...props} dates={dates} updateDates={updateDates}/>
                 )
             }
         </DatesConsumer>

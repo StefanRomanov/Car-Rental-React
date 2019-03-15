@@ -66,9 +66,9 @@ public class CarController {
     }
 
     @GetMapping("/all")
-    public Page<CarViewModel> allCars(Pageable pageable){
+    public Page<CarViewModel> allCars(Pageable pageable, @RequestParam(value = "query",required = false) String query){
 
-        return this.carService.allCars(pageable);
+        return this.carService.allCars(pageable, query);
     }
 
     @PostMapping("/available")
@@ -77,11 +77,9 @@ public class CarController {
     }
 
     @PostMapping("/check/{id}")
-    public ResponseBody checkCarAvailability(@PathVariable String id, @RequestBody @Valid WithinDatesAndUserNameModel model){
-        ResponseBody rb = new ResponseBody();
-        rb.setEntity(this.carService.checkAvailability(id,model.getStartDate(), model.getEndDate()));
+    public boolean checkCarAvailability(@PathVariable String id, @RequestBody @Valid WithinDatesAndUserNameModel model){
 
-        return rb;
+        return this.carService.checkAvailability(id,model.getStartDate(), model.getEndDate());
     }
 
 }

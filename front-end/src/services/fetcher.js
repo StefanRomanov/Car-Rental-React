@@ -1,5 +1,3 @@
-import toastr from "toastr";
-
 function fetcher(method) {
 
     const getAuthHeader =  () => {
@@ -25,10 +23,9 @@ function fetcher(method) {
             ...options
         })
             .then(response => {
-                if(response.headers['Expired']){
-                    //TODO: Call service that refreshes the auth_token.
+                if(response.status === 410){
+                    window.location.href = '/logout';
                 }
-
                 return response.json();
             })
     }

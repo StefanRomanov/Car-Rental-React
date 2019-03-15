@@ -1,6 +1,33 @@
-ul li{
+a.nav-link {
     display: inline-block;
+    color: white;
+    opacity: 75%;
 }
-.active{
-    color:deepskyblue;
+
+a.nav-link:hover {
+    color: white;
+}
+
+a.nav-link.active {
+    color: white;
+    border: 2px beige solid;
+    background: burlywood;
+}
+
+.nav-link{
+    border-radius: 15px;
+}
+
+.nav-link:hover{
+    background: rgba(87.1,72.2,52.9,.99);
+}
+
+.navbar-brand{
+    background: saddlebrown;
+    border: 2px beige solid;
+    border-radius: 55%;
+}
+
+.navbar span {
+    color: #bbbbbb;
 }

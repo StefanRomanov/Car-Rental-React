@@ -58,8 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/sales/all/**").hasAuthority("USER")
-                    .anyRequest().permitAll()
+                    .antMatchers("/cars/all", "/cars/details/**").permitAll()
+                    .antMatchers( "/login", "/register").anonymous()
+                    .antMatchers("/sales/all/**","/cars/reserve/**","/cars/available").hasAuthority("USER")
+                    .antMatchers("/rents/active","/rents/pending","/cars/edit/**","/cars/delete/:id","/cars/create").hasAuthority("ADMIN")
+                    .anyRequest().authenticated()
                 .and()
                     .addFilter(new JwtAuthenticationFilter(authenticationManager()))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager(), this.userService));

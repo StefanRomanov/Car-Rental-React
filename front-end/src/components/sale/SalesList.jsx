@@ -6,25 +6,42 @@ import {UserConsumer} from "../../context/UserContext";
 import Sale from "./Sale";
 import {saleService} from '../../services';
 import {withRouter} from "react-router";
+import withPaging from "../hoc/withPaging";
+import Paginator from "../common/Paginator";
+import SearchInput from "../common/SearchInput";
+import withSearch from "../hoc/withSearch";
 
 
 class SalesList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
-        }
+            data: [],
+            error: false
+        };
+
+        this.onSearchSubmit = this.onSearchSubmit.bind(this);
     }
 
     componentDidMount() {
-        saleService.getSalesByUsername(this.props.user.username)
+        this.fetchData();
+    }
+
+    onSearchSubmit(e){
+        e.preventDefault();
+        this.fetchData();
+    }
+
+    fetchData(){
+        saleService.getSalesByUsername('?page=' + this.props.paging.page, this.props.user.username,'&query=' + this.props.searchString)
             .then(res => {
-                if(res.success === false){
+                if (res.success === false) {
                     toastr.error(res.message);
                     this.props.history.push('/');
                 } else {
+                    this.props.updatePages(res.totalPages);
                     this.setState({
-                        data: res
+                        data: res.content
                     })
                 }
             })
@@ -34,11 +51,11 @@ class SalesList extends Component {
     }
 
 
-
-
     render() {
         return (
             <div className='container mt-5'>
+                <SearchInput onChange={this.props.onSearchChange} onSearchSubmit={this.onSearchSubmit} />
+                <hr/>
                 <div className='table-responsive bg-light rounded'>
                     <table className='table table-hover table-striped'>
                         <thead>
@@ -60,10 +77,13 @@ class SalesList extends Component {
                         </tbody>
                     </table>
                 </div>
+                <hr/>
+                <Paginator nextPage={this.props.nextPage} prevPage={this.props.prevPage}
+                           totalPages={this.props.paging.totalPages} page={this.props.paging.page + 1}
+                           pageChange={this.props.pageChange}/>
             </div>
         )
     }
-
 }
 
 
@@ -80,4 +100,4 @@ const SalesListWithContext = (props) => {
     )
 };
 
-export default withRouter(SalesListWithContext);
+export default withRouter(withPaging(withSearch(SalesListWithContext)));

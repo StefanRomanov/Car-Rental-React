@@ -39,6 +39,30 @@ const registerHandler = (username, email, password, confirmPassword) => {
     return true
 };
 
+const dateHandler = (startDate, endDate) => {
+    const currentDateTime = new Date(Date.now()).setHours(0, 0, 0, 0);
+    const startDateTime = new Date(startDate).setHours(0, 0, 0, 0);
+    const endDateTime = new Date(endDate).setHours(0, 0, 0, 0);
+
+    if (startDateTime < currentDateTime) {
+        toastr.error('Please dont use past dates');
+        return false
+    }
+
+    if (endDateTime < currentDateTime) {
+        toastr.error('Please dont use past dates');
+        return false
+    }
+
+    if(startDateTime > endDateTime){
+        toastr.error('End date cannot be before start date');
+        return false
+    }
+
+    return true;
+
+};
+
 const createCarHandler = (brand, model, count, seats, year, fuelExpense, description, imageUrl, trunkCapacity, pricePerDay) => {
     if (brand.length < 3 || brand === '' || brand.length > 15) {
         toastr.error('Brand should be between 3 and 15 characters long');
@@ -65,12 +89,12 @@ const createCarHandler = (brand, model, count, seats, year, fuelExpense, descrip
         return false
     }
 
-    //if (description.length > 10 &&
-    //    description.length < 500 &&
-    //    description !== '') {
-    //    toastr.error('Description should be between 10 and 500 characters');
-    //    return false
-    //}
+    if (description.length < 10 ||
+        description.length > 500 ||
+        description === '') {
+        toastr.error('Description should be between 10 and 500 characters');
+        return false
+    }
 
     if (imageUrl.length < 14 || !(imageUrl.startsWith('https://') || imageUrl.startsWith('http://'))) {
         toastr.error('Please enter valid image url');
@@ -98,5 +122,6 @@ const createCarHandler = (brand, model, count, seats, year, fuelExpense, descrip
 export {
     loginFormHandler,
     registerHandler,
-    createCarHandler
+    createCarHandler,
+    dateHandler
 }

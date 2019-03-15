@@ -5,8 +5,6 @@ import {UserConsumer} from '../../context/UserContext'
 const PrivateRoute = (props) => {
     const {user, allowedRoles, ...otherProps} = props;
 
-    console.log(props);
-
     if(!user.isLoggedIn || !allowedRoles.includes(user.role)){
         return <Redirect to="/login"/>
     }

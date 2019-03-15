@@ -1,12 +1,16 @@
 package com.server.repositories;
 
 import com.server.domain.entities.Sale;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface SaleRepository extends JpaRepository<Sale,String> {
-    List<Sale> findAllByBuyerUsername(String username);
+public interface SaleRepository extends JpaRepository<Sale, String> {
+    Page<Sale> findAllByBuyerUsernameAndRentIdContainsOrCarBrandContainsOrCarModelContainsOrderByIssueDate(Pageable pageable,
+                                                                                                         String username,
+                                                                                                         String rentId,
+                                                                                                         String carBrand,
+                                                                                                         String carModel);
 }

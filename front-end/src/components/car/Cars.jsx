@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import Car from "../common/CarCard";
+import Car from "./CarCard";
 import SearchInput from '../common/SearchInput'
 
 import {carService} from '../../services'
 import Paginator from "../common/Paginator";
 import toastr from "toastr";
 import withPaging from "../hoc/withPaging";
+import withSearch from "../hoc/withSearch";
 
 
 class Cars extends Component {
@@ -15,6 +16,8 @@ class Cars extends Component {
         this.state = {
             cars: [],
         };
+
+        this.onSearchSubmit = this.onSearchSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -28,8 +31,13 @@ class Cars extends Component {
         }
     }
 
+    onSearchSubmit(e){
+        e.preventDefault();
+        this.fetchData();
+    }
+
     fetchData(){
-        carService.getAllCars('?page=' + this.props.paging.page)
+        carService.getAllCars('?page=' + this.props.paging.page,'&query=' + this.props.searchString)
             .then(res => {
                 if (res.success === false) {
                     toastr.error(res.message);
@@ -48,8 +56,8 @@ class Cars extends Component {
     render() {
 
         return (
-            <div className="container col-lg-8">
-                <SearchInput/>
+            <div className="container col-lg-8 mt-5">
+                <SearchInput onChange={this.props.onSearchChange} onSearchSubmit={this.onSearchSubmit} />
                 <hr/>
                 <div className='text-center'>
                     {
@@ -67,4 +75,4 @@ class Cars extends Component {
 
 }
 
-export default withPaging(Cars);
+export default withPaging(withSearch(Cars));

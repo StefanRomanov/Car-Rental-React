@@ -39,7 +39,7 @@ class RentsPending extends Component {
                 if (res.success === false) {
                     toastr.error(res.message);
                 } else {
-                    
+
                     this.props.updatePages(res.totalPages);
                     this.setState({
                         data: res.content,

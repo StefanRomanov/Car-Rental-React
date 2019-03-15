@@ -39,7 +39,10 @@ class LoginForm extends Component {
         authService.login(this.state)
             .then(data => {
 
-                if(!data.error){
+                if (data.success === false) {
+                    toastr.error('Invalid username or password')
+
+                } else {
                     const {updateUser} = this.props;
 
                     window.localStorage.setItem('auth_token', data.Authorization);
@@ -52,9 +55,6 @@ class LoginForm extends Component {
                     };
 
                     updateUser(newUser);
-
-                } else {
-                    toastr.error(data.message)
                 }
 
 
@@ -62,10 +62,11 @@ class LoginForm extends Component {
             .catch(err => {
                 console.log(err);
             });
+
     }
 
     render() {
-        if(this.props.user.isLoggedIn){
+        if (this.props.user.isLoggedIn) {
             return <Redirect to="/"/>
         }
 
@@ -104,7 +105,7 @@ const LoginWithContext = (props) => {
     return (
         <UserConsumer>
             {
-                ({user, updateUser}) =>(
+                ({user, updateUser}) => (
                     <LoginForm {...props} user={user} updateUser={updateUser}/>
                 )
             }

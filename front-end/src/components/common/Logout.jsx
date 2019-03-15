@@ -7,7 +7,6 @@ class Logout extends Component{
 
     componentDidMount(){
         authService.logout();
-
         this.props.updateUser(defaultUserState);
     }
 

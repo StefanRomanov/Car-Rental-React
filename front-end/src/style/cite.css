@@ -13,32 +13,14 @@
     background: lightcyan;
 }
 
-a.nav-link {
-    display: inline-block;
-    color: lightcyan;
-    opacity: 75%;
+html {
+    position: relative;
+    min-height: 100%;
 }
 
-a.nav-link:hover {
-    color: white;
-}
-
-a.nav-link.active {
-    color: white;
-}
-
-.nav-link{
-    border-radius: 15px;
-}
-
-.nav-link:hover{
-    background: rgba(87.1,72.2,52.9,.99);
-}
-
-.navbar-brand{
-    background: saddlebrown;
-    border: 2px burlywood solid;
-    border-radius: 55%;
+body {
+    margin-bottom: 220px;
+    background: beige;
 }
 
 .jumbotron {
@@ -49,20 +31,14 @@ a.nav-link.active {
     margin-top: 2em;
 }
 
-.active {
-    background: burlywood;
-}
-
-.navbar span {
-    color: #bbbbbb;
-}
-
 .card-blockquote>img {
     width: 100%;
 }
 
 .card {
     margin-bottom: 1em;
+    display: flex;
+    flex-direction:row;
 }
 .card:hover {
     background: beige;
@@ -75,34 +51,14 @@ a.nav-link.active {
 }
 
 .details-image{
-    width: 350px;
+    width: 400px;
     height: 250px;
     border-radius: 5px;
 }
 
-.row .no-float {
+.row.no-float {
     display: table-cell;
     float: none;
-}
-
-.selected {
-    background: #666666;
-}
-
-html {
-    position: relative;
-    min-height: 100%;
-}
-
-body {
-    margin-bottom: 220px;
-    background: beige;
-}
-
-#footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
 }
 
 .card-horizontal {
@@ -145,20 +101,12 @@ body {
     height: 15%;
 }
 
-pre{
-    overflow-y: scroll
-}
-
 .toast-error {
     background: crimson;
 }
 
 .toast-success {
     background: forestgreen;
-}
-
-.sale-row{
-    height: 100px;
 }
 
 pre{

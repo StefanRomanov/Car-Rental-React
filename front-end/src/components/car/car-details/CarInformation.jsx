@@ -34,11 +34,14 @@ const CarInformation = (props) => {
                                         </tr>
                                         <tr>
                                             <td className="font-weight-bold">Total price</td>
-                                            <td>${days * props.data.pricePerDay}
+                                            <td>${days * props.data.pricePerDay}*
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
+                                    <small className='mt-5 ml-3'>* For every day after the return date, you will be charged double
+                                        the daily price.
+                                    </small>
                                 </div>
                             </Fragment>
                         ) : (
@@ -59,16 +62,16 @@ const CarInformation = (props) => {
 
             </div>
             <div className="col-md-6">
-                <div className="col-lg-10">
+                <div className="col-lg-9">
                     <div className="align-self-center m-3">
                         <img className="img-responsive details-image img-thumbnail"
                              src={props.data.imageUrl}
                              alt=""/>
                     </div>
-                    <div className="col-md-12 app-bg-fourth table-responsive rounded shadow">
+                    <div className="container app-bg-fourth table-responsive rounded shadow">
                         <h2 className="font-weight-bold mt-2">Technical data</h2>
                         <hr/>
-                        <table className="m-3 align-self-center">
+                        <table className="m-3 w-100 align-self-center">
                             <tbody>
                             <tr>
                                 <td className="font-weight-bold">Make</td>
@@ -79,24 +82,19 @@ const CarInformation = (props) => {
                             <tr>
                                 <td className="font-weight-bold">Model</td>
                                 <td>{props.data.model}</td>
-                                <td className="font-weight-bold">Fuel expense</td>
-                                <td>{props.data.litersPerHundredKilometers} l/100
-                                    km
-                                </td>
+                                <td className="font-weight-bold">Year</td>
+                                <td>{props.data.year}</td>
+
                             </tr>
                             <tr>
-                                <td className="font-weight-bold">Fuel type</td>
-                                <td>Gasoline</td>
                                 <td className="font-weight-bold">Trunk capacity</td>
                                 <td>
                                     <span><span>{props.data.trunkCapacity}</span> l</span>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td className="font-weight-bold">Year</td>
-                                <td>{props.data.year}</td>
-                                <td className="font-weight-bold">Doors</td>
-                                <td>5</td>
+                                <td className="font-weight-bold">Fuel expense</td>
+                                <td>{props.data.litersPerHundredKilometers} l/100
+                                    km
+                                </td>
                             </tr>
                             </tbody>
                         </table>

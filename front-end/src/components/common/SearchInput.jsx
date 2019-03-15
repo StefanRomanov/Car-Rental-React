@@ -1,25 +1,14 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 
-class SearchInput extends Component {
-    constructor(props) {
-        super(props);
+const SearchInput = (props) => {
 
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-
-    onSubmit(e) {
-        e.preventDefault();
-        alert("Searching...")
-    }
-
-    render() {
         return (
-                <form onSubmit={this.onSubmit}>
+                <form onSubmit={props.onSearchSubmit}>
                     <div className="form-row col-lg-12 justify-content-center">
                         <div className="my-3 col-lg-6">
                             <label className="sr-only" htmlFor="search">Name</label>
-                            <input type="text" className="form-control" id="search" placeholder="Search"/>
+                            <input type="text" className="form-control" id="search" onChange={props.onChange}/>
                         </div>
                         <div className="col-auto my-3">
                             <button type="submit" className="btn btn-primary">Search</button>
@@ -27,7 +16,6 @@ class SearchInput extends Component {
                     </div>
                 </form>
         )
-    }
-}
+};
 
 export default SearchInput;

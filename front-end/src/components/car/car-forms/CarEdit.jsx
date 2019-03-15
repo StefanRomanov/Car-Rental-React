@@ -58,7 +58,7 @@ class CarEdit extends Component {
 
         let {brand, model, year, seats, count, trunkCapacity, description, imageUrl, litersPerHundredKilometers, pricePerDay} = this.state;
 
-        if(!createCarHandler(brand, model, count, seats, year, litersPerHundredKilometers, description, imageUrl, trunkCapacity, pricePerDay)){
+        if (!createCarHandler(brand, model, count, seats, year, litersPerHundredKilometers, description, imageUrl, trunkCapacity, pricePerDay)) {
             return;
         }
 
@@ -117,7 +117,8 @@ class CarEdit extends Component {
                             <div className="row justify-content-around">
                                 <Input onChange={this.onChange} name="litersPerHundredKilometers"
                                        label="Fuel expense per KM"
-                                       type="number" step="0.01" value={this.state.litersPerHundredKilometers} valid={validation.validFuelExpense}/>
+                                       type="number" step="0.01" value={this.state.litersPerHundredKilometers}
+                                       valid={validation.validFuelExpense}/>
                                 <Input onChange={this.onChange} name="pricePerDay" label="Price per day"
                                        type="number"
                                        step="0.01" value={this.state.pricePerDay} valid={validation.validPrice}/>
@@ -125,8 +126,9 @@ class CarEdit extends Component {
                             <div>
                                 <label htmlFor="description" className='form-control-label'>Description</label>
                                 <textarea onChange={this.onChange} name="description" id="description"
-                                          className="form-control mb-3"
-                                          value={this.state.description}/>
+                                          className={validation.validDescription ? 'is-valid form-control mb-3' : 'is-invalid form-control mb-3'}
+                                          value={this.state.description}
+                                />
                             </div>
                             <hr/>
                             <div className="row justify-content-around">

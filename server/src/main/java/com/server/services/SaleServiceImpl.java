@@ -5,15 +5,15 @@ import com.server.domain.entities.Sale;
 import com.server.domain.enums.SaleType;
 import com.server.domain.models.view.SaleViewModel;
 import com.server.repositories.SaleRepository;
+import com.server.util.PageMapper;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Service
 @Transactional
@@ -28,16 +28,22 @@ public class SaleServiceImpl implements SaleService {
     }
 
 
-    public List<SaleViewModel> findAllByUsername(String username) {
+    @Override
+    public Page<SaleViewModel> findAllByUsername(Pageable pageable, String username, String query) {
 
-        Type type = new TypeToken<List<SaleViewModel>>(){}.getType();
-        List<Sale> sales = this.saleRepository.findAllByBuyerUsername(username);
+        System.out.println(query);
+        if (query == null) {
+            query = "";
+        }
 
-        return this.modelMapper.map(sales, type);
+        Page<Sale> sales = this.saleRepository.findAllByBuyerUsernameAndRentIdContainsOrCarBrandContainsOrCarModelContainsOrderByIssueDate(
+                        pageable, username, query, query, query);
+
+        return PageMapper.mapPage(sales, SaleViewModel.class, modelMapper);
     }
 
     @Override
-    public Sale createSale(Rent rent){
+    public Sale createSale(Rent rent) {
         Sale sale = new Sale();
 
         sale.setBuyer(rent.getRenter());
@@ -53,8 +59,8 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public void createPenaltySale(Rent rent, LocalDate returnDate){
-        long days = ChronoUnit.DAYS.between(rent.getEndDate(),returnDate) + 1;
+    public void createPenaltySale(Rent rent, LocalDate returnDate) {
+        long days = ChronoUnit.DAYS.between(rent.getEndDate(), returnDate) + 1;
         Sale sale = createSale(rent);
         sale.setPricePaid(rent.getCar().getPricePerDay() * days);
         sale.setType(SaleType.PENALTY);
@@ -65,7 +71,7 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public void createApprovedSale(Rent rent){
+    public void createApprovedSale(Rent rent) {
         Sale sale = this.createSale(rent);
         sale.setType(SaleType.APPROVED);
 
@@ -73,7 +79,7 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public void createDeclinedSale(Rent rent){
+    public void createDeclinedSale(Rent rent) {
         Sale sale = this.createSale(rent);
         sale.setType(SaleType.DECLINED);
 

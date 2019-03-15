@@ -13,7 +13,7 @@ export default (props) => {
                             <h4>{props.data.car.model}</h4>
                             <h5>Start date: {props.data.startDate}</h5>
                             <h5>Return date: {props.data.endDate}</h5>
-                            <h5>Total cost: {props.data.totalPrice} &#1083;&#1074;</h5>
+                            <h5>Total cost: ${props.data.totalPrice}</h5>
                         </div>
                     </div>
                         {

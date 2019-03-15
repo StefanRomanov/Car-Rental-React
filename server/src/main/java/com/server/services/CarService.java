@@ -13,7 +13,7 @@ public interface CarService {
     CarViewModel getFirstById(String id);
     boolean deleteById(String id);
     CarViewModel editCar(String id, CarCreationBindingModel model);
-    Page<CarViewModel> allCars(Pageable pageable);
+    Page<CarViewModel> allCars(Pageable pageable, String query);
     Page<CarViewModel> allAvailableCars(Pageable pageable, WithinDatesAndUserNameModel model);
     boolean checkAvailability(String id, LocalDate startDate, LocalDate endDate);
 }

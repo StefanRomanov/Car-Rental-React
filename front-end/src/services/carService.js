@@ -28,8 +28,8 @@ function createCar(body){
 
 }
 
-function getAllCars(pageString){
-    return fetcher.get(config.SERVER_PATH + '/cars/all' + pageString)
+function getAllCars(pageString, searchString){
+    return fetcher.get(config.SERVER_PATH + '/cars/all' + pageString + searchString)
 }
 
 function checkAvailability(id ,startDate, endDate){

@@ -94,8 +94,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Page<CarViewModel> allCars(Pageable pageable) {
-        Page<Car> cars = this.carRepository.findAll(pageable);
+    public Page<CarViewModel> allCars(Pageable pageable, String query) {
+        if(query == null){
+            query = "";
+        }
+        Page<Car> cars = this.carRepository.findAllByBrandContainsOrModelContains(pageable, query, query);
         return PageMapper.mapPage(cars, CarViewModel.class, modelMapper);
     }
 

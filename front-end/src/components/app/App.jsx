@@ -23,7 +23,7 @@ import Logout from "../common/Logout";
 import {UserProvider, defaultUserState} from "../../context/UserContext";
 import {DatesProvider, defaultDateState} from "../../context/DatesContext";
 import PrivateRoute from "../common/PrivateRoute";
-import RentSearch from "../car/car-forms/CarsAvailable";
+import CarsAvailable from "../car/car-forms/CarsAvailable";
 
 
 class App extends Component {
@@ -36,7 +36,6 @@ class App extends Component {
     }
 
     constructUserContext() {
-
         const token = window.localStorage.getItem("auth_token");
         if (token && token.length > 0) {
             try {
@@ -55,10 +54,12 @@ class App extends Component {
         return defaultUserState;
     }
 
-    constructDatesContext(){
-        if(window.localStorage.getItem('startDate') && window.localStorage.getItem('endDate')){
-            return {startDate: window.localStorage.getItem('startDate'),
-                    endDate: window.localStorage.getItem('endDate')}
+    constructDatesContext() {
+        if (window.localStorage.getItem('startDate') && window.localStorage.getItem('endDate')) {
+            return {
+                startDate: window.localStorage.getItem('startDate'),
+                endDate: window.localStorage.getItem('endDate')
+            }
         }
 
         return defaultDateState;
@@ -69,14 +70,14 @@ class App extends Component {
     };
 
     updateDates = (dates) => {
-        window.localStorage.setItem('startDate',dates.startDate);
-        window.localStorage.setItem('endDate',dates.endDate);
+        window.localStorage.setItem('startDate', dates.startDate);
+        window.localStorage.setItem('endDate', dates.endDate);
         this.setState({dates});
     };
 
 
     render() {
-        const {user,dates} = this.state;
+        const {user, dates} = this.state;
 
 
         return (
@@ -90,25 +91,26 @@ class App extends Component {
                                     <Route exact path={"/"} component={Home}/>
                                     <Route exact path="/register" component={RegisterForm}/>
                                     <Route exact path="/login" component={LoginForm}/>
-                                    <PrivateRoute allowedRoles={['ADMIN', 'USER']} exact path="/logout"
-                                                  component={Logout}/>
+                                    <Route exact path="/cars/details/:id" component={CarDetails}/>
+                                    <Route exact path="/cars/all" component={Cars}/>
                                     <PrivateRoute allowedRoles={['ADMIN']} exact path="/rents/active"
                                                   component={RentsActive}/>
                                     <PrivateRoute allowedRoles={['ADMIN']} exact path="/rents/pending"
                                                   component={RentsPending}/>
-                                    <Route exact path="/cars/all" component={Cars}/>
                                     <PrivateRoute allowedRoles={['ADMIN']} exact path="/cars/create"
                                                   component={CreateCar}/>
                                     <PrivateRoute allowedRoles={['ADMIN']} exact path="/cars/edit/:id"
                                                   component={CarEdit}/>
                                     <PrivateRoute allowedRoles={['ADMIN']} exact path="/cars/delete/:id"
                                                   component={CarDelete}/>
-                                    <Route exact path="/cars/details/:id" component={CarDetails}/>
-                                    <Route exact path="/cars/available" component={RentSearch}/>
+                                    <PrivateRoute allowedRoles={['USER']} exact path="/cars/available"
+                                                  component={CarsAvailable}/>
                                     <PrivateRoute allowedRoles={['USER']} exact path="/cars/reserve/:id"
                                                   component={ReserveCar}/>
                                     <PrivateRoute allowedRoles={['USER']} exact path="/sales/all/:username"
                                                   component={SalesList}/>
+                                    <PrivateRoute allowedRoles={['ADMIN', 'USER']} exact path="/logout"
+                                                  component={Logout}/>
                                     <Route component={NotFound}/>
                                 </Switch>
                                 <Footer/>

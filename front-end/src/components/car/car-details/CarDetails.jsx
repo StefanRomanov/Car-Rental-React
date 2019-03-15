@@ -1,10 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import {carService} from '../../../services'
-import Loading from "../../common/Loading";
 import CarInformation from "./CarInformation";
 import {Link} from "react-router-dom";
 import {UserConsumer} from "../../../context/UserContext";
-import CarCheckForm from "../car-forms/CarCheckForm";
+import CarCheckForm from "../car-forms/CarCheckAvailability";
 import {withRouter} from "react-router";
 import toastr from 'toastr';
 
@@ -13,7 +12,6 @@ class CarDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoaded: false,
             id: '',
             brand: '',
             model: '',
@@ -38,7 +36,6 @@ class CarDetails extends Component {
                     this.props.history.push("/cars/all");
                 } else {
                     this.setState({
-                        isLoaded: true,
                         ...data
                     });
                 }
@@ -50,9 +47,6 @@ class CarDetails extends Component {
 
 
     render() {
-        if (!this.state.isLoaded) {
-            return <Loading/>
-        }
 
         const {user} = this.props;
 

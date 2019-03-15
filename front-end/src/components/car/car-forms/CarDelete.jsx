@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import toastr from "toastr";
 
 import './CreateCar.css';
@@ -9,6 +9,14 @@ import {Redirect, withRouter} from "react-router";
 
 class CarDelete extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            done: false
+        }
+    }
+
+
     componentDidMount() {
         const id = this.props.match.params.id;
 
@@ -16,6 +24,10 @@ class CarDelete extends Component {
             .then(res => {
                 if (res.success === false) {
                     toastr.error(res.message);
+                } else {
+                    this.setState({
+                        done: true
+                    })
                 }
             })
             .catch((e) => {
@@ -25,10 +37,13 @@ class CarDelete extends Component {
 
 
     render() {
-
-        return (
-            <Redirect to="/cars/all"/>
-        )
+        if(this.state.done){
+            return (
+                <Redirect to="/cars/all"/>
+            )
+        } else {
+            return '';
+        }
     }
 }
 

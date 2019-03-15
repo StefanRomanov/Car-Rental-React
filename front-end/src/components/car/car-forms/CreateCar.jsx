@@ -106,9 +106,12 @@ class CreateCar extends Component {
                             </div>
                             <div>
                                 <label htmlFor="description" className='form-control-label'>Description</label>
-                                <textarea onChange={this.onChange} className="form-control mb-3" name="description"
+                                <textarea onChange={this.onChange}
+                                          className={validation.validDescription ? 'is-valid form-control mb-3' : 'is-invalid form-control mb-3'}
+                                          name="description"
                                           id="description"
-                                          placeholder="Description..." value={this.state.description}/>
+                                          value={this.state.description}
+                                />
                             </div>
                             <hr/>
                             <div className="row justify-content-around">

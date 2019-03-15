@@ -8,25 +8,25 @@ const registerValidation = (
         let mailRegex = new RegExp(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
-        let testMail = mailRegex.test(email)
-        return testMail && email !== '';
+        let testMail = mailRegex.test(email);
+        return testMail && email !== '' && email.length < 36;
 
     })();
 
     let validUsername = (() => {
-        return username.length > 3 &&
+        return username.length > 3 && username.length < 16 &&
             username !== '';
 
     })();
 
     let validPassword = (() => {
-        return password.length > 7 &&
+        return password.length > 7 && password.length < 21 &&
             password !== '';
 
     })();
 
     let validConfirmPassword = (() => {
-        return confirmPassword.length > 7 &&
+        return confirmPassword.length > 7 && confirmPassword.length < 21 &&
             confirmPassword !== '' &&
             confirmPassword === password;
 
@@ -42,12 +42,12 @@ const registerValidation = (
 
 const loginValidation = (username, password) => {
     let validUsername = (() => {
-        return username.length > 3 &&
+        return username.length > 3 && username.length < 16 &&
             username !== '';
     })();
 
     let validPassword = (() => {
-        return password.length > 7 &&
+        return password.length > 7 && password.length < 21 &&
             password !== '';
 
     })();
@@ -55,6 +55,26 @@ const loginValidation = (username, password) => {
     return {
         validUsername,
         validPassword
+    }
+};
+
+const dateValidation = (startDate, endDate) => {
+
+    const currentDateTime = new Date(Date.now()).setHours(0,0,0,0);
+    const startDateTime = new Date(startDate).setHours(0,0,0,0);
+    const endDateTime = new Date(endDate).setHours(0,0,0,0);
+
+    let validStartDate = (() => {
+        return startDateTime >= currentDateTime && startDateTime <= endDateTime;
+    })();
+
+    let validEndDate = (() => {
+        return endDateTime >= currentDateTime && startDateTime <= endDateTime;
+    })();
+
+    return {
+        validStartDate,
+        validEndDate
     }
 };
 
@@ -129,5 +149,6 @@ const createCarValidation = (brand, model, count, seats, year, fuelExpense, desc
 export {
     registerValidation,
     loginValidation,
-    createCarValidation
+    createCarValidation,
+    dateValidation
 }

@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import Input from '../../common/Input';
-import CarCard from "../../common/CarCard";
+import CarCard from "../CarCard";
 import {carService} from '../../../services'
 import Paginator from "../../common/Paginator";
 import toastr from "toastr";
 import {DatesConsumer} from "../../../context/DatesContext";
 import util from '../../../services/util'
+import withPaging from "../../hoc/withPaging";
+import {dateValidation} from "../../../config/formValidator";
+import {dateHandler} from "../../../config/formErrorHandler";
 
 class CarsAvailable extends Component {
     constructor(props) {
@@ -16,16 +19,11 @@ class CarsAvailable extends Component {
                 endDate: util.getCurrentDate()
             },
             data: [],
-            page: 0,
-            totalPages: 0
 
         };
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.turnPreviousPage = this.turnPreviousPage.bind(this);
-        this.turnNextPage = this.turnNextPage.bind(this);
-        this.pageChange = this.pageChange.bind(this);
     }
 
     onChange(e) {
@@ -40,40 +38,28 @@ class CarsAvailable extends Component {
     onSubmit(e) {
         e.preventDefault();
         const {startDate, endDate} = this.state.form;
-        this.props.updateDates({startDate,endDate})
+
+        if(!dateHandler(startDate,endDate)){
+            return
+        }
+
+        this.props.updateDates({startDate,endDate});
         this.fetchData()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(this.state.page !== prevState.page){
+        if(this.props.paging.page !== prevProps.paging.page){
             this.fetchData()
         }
     }
 
-    turnNextPage() {
-        this.setState({
-            page: this.state.page + 1
-        })
-    }
-
-    turnPreviousPage() {
-        this.setState({
-            page: this.state.page - 1
-        })
-    }
-
-    pageChange(e) {
-        this.setState({
-            page: e.target.value
-        })
-    }
-
     fetchData(){
-        carService.findAvailableCars('?page='+ this.state.page, this.state.form)
+        carService.findAvailableCars('?page='+ this.props.paging.page, this.state.form)
             .then(res => {
                 if (res.success === false) {
                     toastr.error(res.message);
                 } else {
+                    this.props.updatePages(res.totalPages);
                     this.setState({
                         data: res.content
                     })
@@ -86,39 +72,42 @@ class CarsAvailable extends Component {
     }
 
     render() {
+
+        const {startDate,endDate} = this.state.form;
+
+        const validation = dateValidation(startDate,endDate);
+
         return (
             <div className="container col-lg-8">
-                <div className='row space-top justify-content-center'>
-                    <div className='col-md-4 text-center'>
-                        <h1>Find available cars</h1>
-                    </div>
-                </div>
                 <hr/>
                 <form onSubmit={this.onSubmit}>
-                    <div className='form-row col-lg-12 justify-content-center'>
-                        <div className="my-3 col-lg-4">
+                    <div className='form-row justify-content-center'>
+                        <div className="my-3 col-lg-3">
                             <Input
                                 onChange={this.onChange}
                                 type="date" name="startDate"
                                 label="Start date"
                                 required={true}
-                                value={this.state.form.startDate}
+                                value={startDate}
+                                valid={validation.validStartDate}
                             />
                         </div>
-                        <div className="my-3 col-lg-4">
+                        <div className="my-3 col-lg-3">
                             <Input
                                 onChange={this.onChange}
                                 type="date" name="endDate"
                                 label="Date of return"
                                 required={true}
-                                value={this.state.form.endDate}
+                                value={endDate}
+                                valid={validation.validEndDate}
                             />
                         </div>
-                        <div className="col-4 justify-content-center">
-                            <button className="btn btn-primary" type="submit">Find</button>
+                        <div className="col-lg-1">
+                            <button className="btn btn-primary mt-5 w-100" type="submit">Find</button>
                         </div>
                     </div>
                 </form>
+                <hr/>
 
                 <div>
                     {
@@ -128,8 +117,8 @@ class CarsAvailable extends Component {
                     }
                 </div>
                 <hr/>
-                <Paginator nextPage={this.turnNextPage} prevPage={this.turnPreviousPage}
-                           totalPages={this.state.totalPages} page={this.state.page + 1} pageChange={this.pageChange}/>
+                <Paginator nextPage={this.props.nextPage} prevPage={this.props.prevPage}
+                           totalPages={this.props.paging.totalPages} page={this.props.paging.page + 1} pageChange={this.props.pageChange}/>
             </div>
         )
     }
@@ -150,4 +139,4 @@ const AvailableCarsWithContext = (props) => {
 
 };
 
-export default  AvailableCarsWithContext;
+export default  withPaging(AvailableCarsWithContext);

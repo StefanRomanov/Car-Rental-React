@@ -13,12 +13,6 @@ export default {
 
 function approveRent(id){
     return fetcher.post(config.SERVER_PATH + "/rents/approve/" + id)
-        .then(data => {
-            console.log(data);
-        })
-        .catch(err => {
-            console.log(err);
-        })
 }
 
 function approvedRents(pageString){

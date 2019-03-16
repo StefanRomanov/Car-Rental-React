@@ -3,7 +3,7 @@
 
 ## Functionality
 ### Anonymous users
-  - Can browse the entire car fleet, the details of each car.
+  - Can login, register, access the entire car fleet and the details for each car.
 ### User Login
   - Login in using username and password of already registered user. Usernames are unique identifier.
 ### User Register

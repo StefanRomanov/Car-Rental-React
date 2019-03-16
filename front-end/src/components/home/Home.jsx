@@ -15,11 +15,13 @@ const Home = (props) => {
                         <div>
                             <Link to='/cars/all' className='btn btn-primary mr-3 shadow-sm'>Car fleet</Link>
                             {
-                                props.user.role !== 'ADMIN'
-                                    ? (<Link to='/cars/available' className='btn btn-secondary ml-3 shadow-sm'>Available
-                                        cars</Link>)
-                                    : (<Link to='/rents/pending' className='btn btn-secondary ml-3 shadow-sm'>Pending
-                                        rents</Link>)
+                                props.user.isLoggedIn ?
+                                                props.user.role !== 'ADMIN'
+                                                    ? (<Link to='/cars/available' className='btn btn-secondary ml-3 shadow-sm'>Available
+                                                        cars</Link>)
+                                                    : (<Link to='/rents/pending' className='btn btn-secondary ml-3 shadow-sm'>Pending
+                                                        rents</Link>)
+                                    : ''
                             }
                         </div>
                     </div>

@@ -39,7 +39,7 @@ public class SaleServiceImpl implements SaleService {
 
         List<Sale> filtered = sales.getContent()
                 .stream()
-                .filter(s -> s.getRentId().toLowerCase().contains(query.toLowerCase())
+                .filter(s -> s.getRentId().contains(query)
                                             || s.getCarModel().toLowerCase().contains(query.toLowerCase())
                                             || s.getCarBrand().toLowerCase().contains(query.toLowerCase())
                                             || s.getType().toString().contains(query.toUpperCase()))

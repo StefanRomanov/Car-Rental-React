@@ -23,6 +23,7 @@ class CarDelete extends Component {
             .then(res => {
                 if (res.success === false) {
                     toastr.error(res.message);
+                    this.props.history.push('/cars/all')
                 } else {
                     toastr.success('Successful deletion');
                     this.setState({

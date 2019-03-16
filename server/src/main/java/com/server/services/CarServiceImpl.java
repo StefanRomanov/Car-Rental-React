@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,16 +99,19 @@ public class CarServiceImpl implements CarService {
         if(query == null){
             query = "";
         }
-        Page<Car> cars = this.carRepository.findAllByBrandContainsOrModelContains(pageable, query, query);
+        Page<Car> cars = this.carRepository.findAllByBrandContainsOrModelContainsOrderByBrand(pageable, query, query);
         return PageMapper.mapPage(cars, CarViewModel.class, modelMapper);
     }
 
     @Override
-    public Page<CarViewModel> allAvailableCars(Pageable pageable, WithinDatesAndUserNameModel model) {
+    public Page<CarViewModel> allAvailableCars(Pageable pageable, WithinDatesAndUserNameModel model, String query) {
 
         List<Car> freeCars = this.carRepository.findAll()
                 .stream()
-                .filter(c -> c.isAvailable(model.getStartDate(), model.getEndDate()))
+                .filter(c -> c.isAvailable(model.getStartDate(), model.getEndDate())
+                                && ( c.getModel().toLowerCase().contains(query.toLowerCase() )
+                                    || c.getBrand().toLowerCase().contains(query.toLowerCase())))
+                .sorted(Comparator.comparing(Car::getBrand))
                 .collect(Collectors.toList());
 
         long start = pageable.getOffset();

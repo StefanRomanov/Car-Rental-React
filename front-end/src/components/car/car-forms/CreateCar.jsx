@@ -6,6 +6,7 @@ import {carService} from '../../../services'
 import {createCarValidation} from '../../../util/validation/formValidator'
 import {createCarHandler} from "../../../util/validation/formErrorHandler";
 import Input from "../../common/tools/Input";
+import {Link} from "react-router-dom";
 
 
 class CreateCar extends Component {
@@ -47,6 +48,7 @@ class CreateCar extends Component {
                 if (res.success === false) {
                     toastr.error(res.message);
                 }
+                toastr.success('Successful creation');
                 this.props.history.push("/cars/all")
             })
             .catch((e) => {
@@ -95,7 +97,7 @@ class CreateCar extends Component {
 
                             <div className="row justify-content-around">
                                 <Input onChange={this.onChange} name="litersPerHundredKilometers"
-                                       label="Fuel expense"
+                                       label="Fuel consumption(l/100km)"
                                        type="number" step="0.01"
                                        value={litersPerHundredKilometers}
                                        valid={validation.validFuelExpense}/>
@@ -113,8 +115,10 @@ class CreateCar extends Component {
                                 />
                             </div>
                             <hr/>
-                            <div className="row justify-content-around">
-                                <input type="submit" className="btn btn-primary form-control w-50" value="Add"/>
+                            <div className="row justify-content-center my-3">
+                                <button type='submit' className="btn btn-info mx-3 text-white w-25"
+                                >Add</button>
+                                <Link to="/cars/all" className="btn btn-danger mx-3 text-white w-25">Cancel</Link>
                             </div>
                         </form>
                     </div>

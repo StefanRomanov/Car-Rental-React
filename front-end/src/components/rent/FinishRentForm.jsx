@@ -29,6 +29,7 @@ class FinishRentForm extends Component {
                 if (res.success === false) {
                     toastr.error(res.message);
                 } else {
+                    toastr.success('Rent finished successfully');
                     this.props.update();
                 }
             });

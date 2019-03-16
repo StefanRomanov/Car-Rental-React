@@ -29,6 +29,7 @@ function withPaging(Component) {
         }
 
         pageChange(e) {
+            console.log(e.target.value);
             this.setState({
                 page: e.target.value
             })

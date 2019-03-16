@@ -66,9 +66,9 @@ class CarDetails extends Component {
                         <Fragment>
                             <hr/>
                             <div className="row justify-content-center my-3">
-                                <Link className="btn btn-info mx-3 text-white w-25"
+                                <Link className="btn btn-info mx-3 text-white w-15"
                                       to={"/cars/edit/" + this.state.id}>Edit</Link>
-                                <Link className="btn btn-danger mx-3 text-white w-25"
+                                <Link className="btn btn-danger mx-3 text-white w-15"
                                       to={"/cars/delete/" + this.state.id}>Delete</Link>
                             </div>
                         </Fragment>

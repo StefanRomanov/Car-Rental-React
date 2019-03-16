@@ -29,9 +29,9 @@ const CarCard = (props) => {
                         <tr>
                             <th>Model</th>
                             <td>{props.car.model}</td>
-                            <th>Trunk capacity</th>
+                            <th>Luggage</th>
                             <td>{props.car.trunkCapacity} l</td>
-                            <th>Fuel expense</th>
+                            <th>Consumption</th>
                             <td>{props.car.litersPerHundredKilometers} l/km</td>
                         </tr>
                         </tbody>

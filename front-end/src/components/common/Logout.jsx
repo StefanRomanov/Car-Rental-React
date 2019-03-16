@@ -3,6 +3,7 @@ import {Redirect} from "react-router";
 
 import {UserConsumer, defaultUserState} from "../../context/UserContext";
 import authService from "../../services/authService";
+import toastr from "toastr";
 
 class Logout extends Component{
 
@@ -12,6 +13,7 @@ class Logout extends Component{
     }
 
     render() {
+        toastr.success('Successful logout');
         return (
             <Redirect to="/login"/>
         )

@@ -20,6 +20,7 @@ class RentAdminButtons extends Component {
                     if (res.success === false) {
                         toastr.error(res.message);
                     } else {
+                        toastr.success('Rent approved');
                         this.props.update();
                     }
                 })
@@ -29,6 +30,7 @@ class RentAdminButtons extends Component {
                     if (res.success === false) {
                         toastr.error(res.message);
                     } else {
+                        toastr.success('Rent declined');
                         this.props.update();
                     }
                 })

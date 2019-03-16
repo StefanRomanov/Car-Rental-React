@@ -11,8 +11,8 @@ export default {
 
 }
 
-function findAvailableCars(pageString,dates){
-    return fetcher.post(config.SERVER_PATH + "/cars/available"+ pageString, dates)
+function findAvailableCars(pageString, searchString,dates){
+    return fetcher.post(config.SERVER_PATH + "/cars/available"+ pageString +  searchString, dates)
 }
 
 function getCarById(id){

@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
 import toastr from "toastr";
 
-import Input from '../../common/tools/Input';
-import CarCard from "../CarCard";
-import {carService} from '../../../services'
-import Paginator from "../../common/tools/Paginator";
-import {DatesConsumer} from "../../../context/DatesContext";
-import util from '../../../util/util'
-import withPaging from "../../hoc/withPaging";
-import {dateValidation} from "../../../util/validation/formValidator";
-import {dateHandler} from "../../../util/validation/formErrorHandler";
+import Input from '../common/tools/Input';
+import CarCard from "./CarCard";
+import {carService} from '../../services'
+import Paginator from "../common/tools/Paginator";
+import {DatesConsumer} from "../../context/DatesContext";
+import util from '../../util/util'
+import withPaging from "../hoc/withPaging";
+import {dateValidation} from "../../util/validation/formValidator";
+import {dateHandler} from "../../util/validation/formErrorHandler";
+import SearchInput from "../common/tools/SearchInput";
+import withSearch from "../hoc/withSearch";
 
 class CarsAvailable extends Component {
     constructor(props) {
@@ -25,6 +27,12 @@ class CarsAvailable extends Component {
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onSearchSubmit = this.onSearchSubmit.bind(this);
+    }
+
+    onSearchSubmit(e){
+        e.preventDefault();
+        this.fetchData();
     }
 
     onChange(e) {
@@ -55,7 +63,7 @@ class CarsAvailable extends Component {
     }
 
     fetchData(){
-        carService.findAvailableCars('?page='+ this.props.paging.page, this.state.form)
+        carService.findAvailableCars('?page='+ this.props.paging.page,'&query=' + this.props.searchString, this.state.form)
             .then(res => {
                 if (res.success === false) {
                     toastr.error(res.message);
@@ -108,6 +116,7 @@ class CarsAvailable extends Component {
                         </div>
                     </div>
                 </form>
+                <SearchInput onChange={this.props.onSearchChange} onSearchSubmit={this.onSearchSubmit} hidden={true}/>
                 <hr/>
 
                 <div>
@@ -140,4 +149,4 @@ const AvailableCarsWithContext = (props) => {
 
 };
 
-export default  withPaging(AvailableCarsWithContext);
+export default  withPaging(withSearch(AvailableCarsWithContext));

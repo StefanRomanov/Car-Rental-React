@@ -10,7 +10,7 @@ const SearchInput = (props) => {
                             <input type="text" className="form-control" id="search" onChange={props.onChange}/>
                         </div>
                         <div className="col-auto my-3">
-                            <button type="submit" className="btn btn-primary">Search</button>
+                            <button type="submit" className="btn btn-primary" hidden={props.hidden}>Search</button>
                         </div>
                     </div>
                 </form>

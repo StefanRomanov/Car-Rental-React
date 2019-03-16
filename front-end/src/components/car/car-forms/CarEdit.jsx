@@ -7,6 +7,7 @@ import {carService} from '../../../services'
 import {createCarValidation} from "../../../util/validation/formValidator";
 import {createCarHandler} from "../../../util/validation/formErrorHandler";
 import Input from "../../common/tools/Input";
+import {Link} from "react-router-dom";
 
 class CarEdit extends Component {
     constructor(props) {
@@ -66,6 +67,7 @@ class CarEdit extends Component {
                 if (res.success === false) {
                     toastr.error(res.message);
                 }
+                toastr.success('Successful edit');
                 this.props.history.push("/cars/all");
             })
             .catch((e) => {
@@ -115,7 +117,7 @@ class CarEdit extends Component {
                             </div>
                             <div className="row justify-content-around">
                                 <Input onChange={this.onChange} name="litersPerHundredKilometers"
-                                       label="Fuel expense"
+                                       label="Fuel consumption(l/100km)"
                                        type="number" step="0.01" value={litersPerHundredKilometers}
                                        valid={validation.validFuelExpense}/>
                                 <Input onChange={this.onChange} name="pricePerDay" label="Price per day"
@@ -130,9 +132,11 @@ class CarEdit extends Component {
                                 />
                             </div>
                             <hr/>
-                            <div className="row justify-content-around">
-                                <input type="submit" className="btn btn-primary form-control w-50" value="Edit"/>
-                            </div>
+                                <div className="row justify-content-center my-3">
+                                    <button type='submit' className="btn btn-info mx-3 text-white w-25"
+                                            >Edit</button>
+                                    <Link to="/cars/all" className="btn btn-danger mx-3 text-white w-25">Cancel</Link>
+                                </div>
                         </form>
                     </div>
                 </div>

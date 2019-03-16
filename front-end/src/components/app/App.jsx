@@ -23,7 +23,7 @@ import Logout from "../common/Logout";
 import {UserProvider, defaultUserState} from "../../context/UserContext";
 import {DatesProvider, defaultDateState} from "../../context/DatesContext";
 import PrivateRoute from "../common/routes/PrivateRoute";
-import CarsAvailable from "../car/car-forms/CarsAvailable";
+import CarsAvailable from "../car/CarsAvailable";
 import GlobalErrorHandler from '../common/GlobalErrorHandler'
 
 import './App.css';

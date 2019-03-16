@@ -89,11 +89,11 @@ const CarInformation = (props) => {
 
                             </tr>
                             <tr>
-                                <td className="font-weight-bold">Trunk capacity</td>
+                                <td className="font-weight-bold">Luggage</td>
                                 <td>
                                     <span><span>{props.data.trunkCapacity}</span> l</span>
                                 </td>
-                                <td className="font-weight-bold">Fuel expense</td>
+                                <td className="font-weight-bold">Consumption</td>
                                 <td>{props.data.litersPerHundredKilometers} l/100
                                     km
                                 </td>

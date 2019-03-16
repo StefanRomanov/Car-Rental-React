@@ -55,6 +55,7 @@ class LoginForm extends Component {
                         isLoggedIn: true
                     };
 
+                    toastr.success('Successful login');
                     updateUser(newUser);
                 }
 

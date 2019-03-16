@@ -41,6 +41,7 @@ class RegisterForm extends Component {
                 if(res.success === false){
                     toastr.error(res.message)
                 }
+                toastr.success('Successful registration');
                 this.props.history.push("/login");
             })
             .catch(err => {

@@ -14,6 +14,6 @@ public interface CarService {
     boolean deleteById(String id);
     CarViewModel editCar(String id, CarCreationBindingModel model);
     Page<CarViewModel> allCars(Pageable pageable, String query);
-    Page<CarViewModel> allAvailableCars(Pageable pageable, WithinDatesAndUserNameModel model);
+    Page<CarViewModel> allAvailableCars(Pageable pageable, WithinDatesAndUserNameModel model, String query);
     boolean checkAvailability(String id, LocalDate startDate, LocalDate endDate);
 }

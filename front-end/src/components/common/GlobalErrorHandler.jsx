@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import toastr from "toastr";
 
 
 class GlobalErrorHandler extends Component {
@@ -19,6 +20,7 @@ class GlobalErrorHandler extends Component {
 
     render() {
         if(this.state.error) {
+            toastr.error('Critical error');
             return (
                 <div className="container mt-3">
                     <div className="jumbotron text-center shadow">

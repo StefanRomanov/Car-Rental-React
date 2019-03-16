@@ -39,10 +39,10 @@ public class SaleServiceImpl implements SaleService {
 
         List<Sale> filtered = sales.getContent()
                 .stream()
-                .filter(s -> s.getRentId().contains(query)
-                                            || s.getCarModel().contains(query)
-                                            || s.getCarBrand().contains(query)
-                                            || s.getType().toString().contains(query))
+                .filter(s -> s.getRentId().toLowerCase().contains(query.toLowerCase())
+                                            || s.getCarModel().toLowerCase().contains(query.toLowerCase())
+                                            || s.getCarBrand().toLowerCase().contains(query.toLowerCase())
+                                            || s.getType().toString().contains(query.toUpperCase()))
                 .collect(Collectors.toList());
 
         Page<Sale> filteredSales = new PageImpl<>(filtered, PageRequest.of(sales.getNumber(), sales.getSize(), sales.getSort()), sales.getTotalElements());

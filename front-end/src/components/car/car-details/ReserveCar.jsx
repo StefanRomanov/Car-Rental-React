@@ -34,7 +34,7 @@ class ReserveCar extends Component {
         const {startDate, endDate} = this.props.dates;
         const {username} = this.props.user;
 
-        console.log(username)
+        console.log(username);
 
         rentService.reserve(this.state.id, {startDate,endDate,username})
             .then(res => {
@@ -78,9 +78,9 @@ class ReserveCar extends Component {
                 </div>
                 <hr/>
                 <div className="row justify-content-center my-3">
-                    <button className="btn btn-info mx-3 text-white w-25"
+                    <button className="btn btn-info mx-3 text-white w-15"
                          onClick={this.onClick}>Reserve</button>
-                    <Link to="/cars/all" className="btn btn-danger mx-3 text-white w-25">Cancel</Link>
+                    <Link to="/cars/all" className="btn btn-danger mx-3 text-white w-15">Cancel</Link>
                 </div>
             </div>
         )

@@ -24,6 +24,7 @@ class CarDelete extends Component {
                 if (res.success === false) {
                     toastr.error(res.message);
                 } else {
+                    toastr.success('Successful deletion');
                     this.setState({
                         done: true
                     })

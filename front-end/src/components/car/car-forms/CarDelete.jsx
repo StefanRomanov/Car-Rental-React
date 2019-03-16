@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
+import {Redirect, withRouter} from "react-router";
 import toastr from "toastr";
 
-import './CreateCar.css';
 import fetcher from "../../../services/fetcher";
 import config from "../../../config/server-config";
-import {Redirect, withRouter} from "react-router";
 
 
 class CarDelete extends Component {

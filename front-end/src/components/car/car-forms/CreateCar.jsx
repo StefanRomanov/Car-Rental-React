@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import Input from "../../common/Input";
-
-import './CreateCar.css';
-import {carService} from '../../../services'
-import {createCarValidation} from '../../../config/formValidator'
-import {createCarHandler} from "../../../config/formErrorHandler";
 import toastr from "toastr";
 import {withRouter} from "react-router";
+
+import {carService} from '../../../services'
+import {createCarValidation} from '../../../util/validation/formValidator'
+import {createCarHandler} from "../../../util/validation/formErrorHandler";
+import Input from "../../common/tools/Input";
 
 
 class CreateCar extends Component {
@@ -74,35 +73,35 @@ class CreateCar extends Component {
                         <form onSubmit={this.onSubmit}>
                             <div className="row justify-content-around">
                                 <Input onChange={this.onChange} name="brand" label="Brand" type="text"
-                                       value={this.state.brand} valid={validation.validBrand}/>
+                                       value={brand} valid={validation.validBrand}/>
                                 <Input onChange={this.onChange} name="model" label="Model" type="text"
-                                       value={this.state.model} valid={validation.validModel}/>
+                                       value={model} valid={validation.validModel}/>
                             </div>
                             <div className="row justify-content-around">
                                 <Input onChange={this.onChange} name="count" label="Count" type="number"
-                                       value={this.state.count} valid={validation.validCount}/>
+                                       value={count} valid={validation.validCount}/>
                                 <Input onChange={this.onChange} name="seats" label="Seats" type="number"
-                                       value={this.state.seats} valid={validation.validSeats}/>
+                                       value={seats} valid={validation.validSeats}/>
                                 <Input onChange={this.onChange} name="year" label="Year" type="number"
-                                       value={this.state.year} valid={validation.validYear}/>
+                                       value={year} valid={validation.validYear}/>
                             </div>
                             <div className="row justify-content-around">
                                 <Input onChange={this.onChange} name="imageUrl" label="Image URL" type="text"
-                                       value={this.state.imageUrl} valid={validation.validImage}/>
+                                       value={imageUrl} valid={validation.validImage}/>
                                 <Input onChange={this.onChange} name="trunkCapacity" label="Trunk Capacity"
                                        type="number"
-                                       value={this.state.trunkCapacity} valid={validation.validTrunkCapacity}/>
+                                       value={trunkCapacity} valid={validation.validTrunkCapacity}/>
                             </div>
 
                             <div className="row justify-content-around">
                                 <Input onChange={this.onChange} name="litersPerHundredKilometers"
-                                       label="Fuel expense per KM"
+                                       label="Fuel expense"
                                        type="number" step="0.01"
-                                       value={this.state.litersPerHundredKilometers}
+                                       value={litersPerHundredKilometers}
                                        valid={validation.validFuelExpense}/>
                                 <Input onChange={this.onChange} name="pricePerDay" label="Price per day" type="number"
                                        step="0.01"
-                                       value={this.state.pricePerDay} valid={validation.validPrice}/>
+                                       value={pricePerDay} valid={validation.validPrice}/>
                             </div>
                             <div>
                                 <label htmlFor="description" className='form-control-label'>Description</label>
@@ -110,7 +109,7 @@ class CreateCar extends Component {
                                           className={validation.validDescription ? 'is-valid form-control mb-3' : 'is-invalid form-control mb-3'}
                                           name="description"
                                           id="description"
-                                          value={this.state.description}
+                                          value={description}
                                 />
                             </div>
                             <hr/>

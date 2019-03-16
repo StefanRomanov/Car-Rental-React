@@ -8,12 +8,16 @@ import com.server.repositories.SaleRepository;
 import com.server.util.PageMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -31,15 +35,19 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public Page<SaleViewModel> findAllByUsername(Pageable pageable, String username, String query) {
 
-        System.out.println(query);
-        if (query == null) {
-            query = "";
-        }
+        Page<Sale> sales = this.saleRepository.findAllByBuyerUsername(pageable, username);
 
-        Page<Sale> sales = this.saleRepository.findAllByBuyerUsernameAndRentIdContainsOrCarBrandContainsOrCarModelContainsOrderByIssueDate(
-                        pageable, username, query, query, query);
+        List<Sale> filtered = sales.getContent()
+                .stream()
+                .filter(s -> s.getRentId().contains(query)
+                                            || s.getCarModel().contains(query)
+                                            || s.getCarBrand().contains(query)
+                                            || s.getType().toString().contains(query))
+                .collect(Collectors.toList());
 
-        return PageMapper.mapPage(sales, SaleViewModel.class, modelMapper);
+        Page<Sale> filteredSales = new PageImpl<>(filtered, PageRequest.of(sales.getNumber(), sales.getSize(), sales.getSort()), sales.getTotalElements());
+
+        return PageMapper.mapPage(filteredSales, SaleViewModel.class, modelMapper);
     }
 
     @Override

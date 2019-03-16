@@ -1,7 +1,9 @@
 import React, {Fragment} from 'react';
 import {withRouter} from "react-router";
+
 import {DatesConsumer} from "../../../context/DatesContext";
-import util from "../../../services/util";
+import util from "../../../util/util";
+
 
 const CarInformation = (props) => {
 
@@ -74,7 +76,7 @@ const CarInformation = (props) => {
                         <table className="m-3 w-100 align-self-center">
                             <tbody>
                             <tr>
-                                <td className="font-weight-bold">Make</td>
+                                <td className="font-weight-bold">Brand</td>
                                 <td>{props.data.brand}</td>
                                 <td className="font-weight-bold">Seats</td>
                                 <td>{props.data.seats}</td>

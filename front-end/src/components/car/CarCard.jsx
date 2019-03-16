@@ -1,6 +1,8 @@
 import React, {Fragment} from 'react';
+
 import {Link, withRouter} from "react-router-dom";
 import {UserConsumer} from "../../context/UserContext";
+import util from "../../util/util";
 
 
 const CarCard = (props) => {
@@ -13,15 +15,27 @@ const CarCard = (props) => {
                 <div className="card-image m-3">
                     <img className="card-image" src={props.car.imageUrl} alt=""/>
                 </div>
-                <div className="card-body">
-                    <div className="card-columns">
-                        <h2>{props.car.brand}</h2>
-                        <h2>{props.car.model}</h2>
-                        <h5>Price: ${props.car.pricePerDay}/day </h5>
-                        <h5>Trunk capacity: {props.car.trunkCapacity} l</h5>
-                        <h5>Seats: {props.car.seats}</h5>
-                        <h5>Fuel expense: {props.car.litersPerHundredKilometers} l/km</h5>
-                    </div>
+                <div className="card-body table-responsive">
+                    <table className='text-lg-center w-75 h-75 my-2 mx-2'>
+                        <tbody>
+                        <tr>
+                            <th>Brand</th>
+                            <td>{props.car.brand}</td>
+                            <th>Price</th>
+                            <td>${props.car.pricePerDay}/day</td>
+                            <th>Seats</th>
+                            <td>{props.car.seats}</td>
+                        </tr>
+                        <tr>
+                            <th>Model</th>
+                            <td>{props.car.model}</td>
+                            <th>Trunk capacity</th>
+                            <td>{props.car.trunkCapacity} l</td>
+                            <th>Fuel expense</th>
+                            <td>{props.car.litersPerHundredKilometers} l/km</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div className="card-footer col-lg-2">
                     <div className="row my-3 justify-content-around">

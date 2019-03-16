@@ -1,7 +1,7 @@
 package com.server.web.controllers;
 
 import com.server.domain.entities.ResponseBody;
-import com.server.domain.models.binding.CarCreationBindingModel;
+import com.server.exceptions.CarCreationBindingModel;
 import com.server.domain.models.view.CarViewModel;
 import com.server.domain.models.binding.WithinDatesAndUserNameModel;
 import com.server.domain.models.view.RentViewModel;

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-
-import {authService} from '../../services'
-import Input from "../common/Input";
-import {registerValidation} from '../../config/formValidator'
-import {registerHandler} from '../../config/formErrorHandler'
 import {withRouter} from "react-router";
 import toastr from 'toastr';
+
+import {authService} from '../../services'
+import Input from "../common/tools/Input";
+import {registerValidation} from '../../util/validation/formValidator'
+import {registerHandler} from '../../util/validation/formErrorHandler'
 
 class RegisterForm extends Component {
     constructor(props) {

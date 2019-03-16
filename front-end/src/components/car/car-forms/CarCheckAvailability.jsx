@@ -1,12 +1,14 @@
 import React, {Component, Fragment} from 'react';
-import Input from "../../common/Input";
+import toastr from "toastr";
+import {withRouter} from "react-router";
+
+import Input from "../../common/tools/Input";
 import {carService} from "../../../services";
 import {DatesConsumer} from "../../../context/DatesContext";
-import {dateValidation} from "../../../config/formValidator";
-import {withRouter} from "react-router";
-import toastr from "toastr";
-import util from '../../../services/util'
-import {dateHandler} from "../../../config/formErrorHandler";
+import {dateValidation} from "../../../util/validation/formValidator";
+import util from '../../../util/util'
+import {dateHandler} from "../../../util/validation/formErrorHandler";
+
 
 class CarCheckAvailability extends Component {
 

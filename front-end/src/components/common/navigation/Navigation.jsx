@@ -1,8 +1,9 @@
 import React, {Fragment} from 'react';
+import {NavLink} from "react-router-dom";
+
+import {UserConsumer} from "../../../context/UserContext";
 
 import './Navigation.css';
-import {NavLink} from "react-router-dom";
-import {UserConsumer} from "../../context/UserContext";
 
 
 const Navigation = (props) => {

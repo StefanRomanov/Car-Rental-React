@@ -37,7 +37,6 @@ function withPaging(Component) {
         updatePages(totalPages){
             this.setState({
                 totalPages: totalPages,
-                page: 0
             })
         }
 

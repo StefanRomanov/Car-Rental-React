@@ -7,8 +7,8 @@ import Sale from "./Sale";
 import {saleService} from '../../services';
 import {withRouter} from "react-router";
 import withPaging from "../hoc/withPaging";
-import Paginator from "../common/Paginator";
-import SearchInput from "../common/SearchInput";
+import Paginator from "../common/tools/Paginator";
+import SearchInput from "../common/tools/SearchInput";
 import withSearch from "../hoc/withSearch";
 
 
@@ -25,6 +25,12 @@ class SalesList extends Component {
 
     componentDidMount() {
         this.fetchData();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.paging.page !== prevProps.paging.page) {
+            this.fetchData();
+        }
     }
 
     onSearchSubmit(e){

@@ -1,5 +1,6 @@
 import React from 'react';
-import util from "../../services/util";
+
+import util from "../../util/util";
 
 import './Sale.css'
 

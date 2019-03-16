@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import authService from "../../services/authService";
 import {Redirect} from "react-router";
+
 import {UserConsumer, defaultUserState} from "../../context/UserContext";
+import authService from "../../services/authService";
 
 class Logout extends Component{
 

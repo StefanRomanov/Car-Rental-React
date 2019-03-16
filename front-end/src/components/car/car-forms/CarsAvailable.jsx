@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import Input from '../../common/Input';
+import toastr from "toastr";
+
+import Input from '../../common/tools/Input';
 import CarCard from "../CarCard";
 import {carService} from '../../../services'
-import Paginator from "../../common/Paginator";
-import toastr from "toastr";
+import Paginator from "../../common/tools/Paginator";
 import {DatesConsumer} from "../../../context/DatesContext";
-import util from '../../../services/util'
+import util from '../../../util/util'
 import withPaging from "../../hoc/withPaging";
-import {dateValidation} from "../../../config/formValidator";
-import {dateHandler} from "../../../config/formErrorHandler";
+import {dateValidation} from "../../../util/validation/formValidator";
+import {dateHandler} from "../../../util/validation/formErrorHandler";
 
 class CarsAvailable extends Component {
     constructor(props) {

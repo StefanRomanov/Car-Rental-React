@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
-import Car from "./CarCard";
-import SearchInput from '../common/SearchInput'
-
-import {carService} from '../../services'
-import Paginator from "../common/Paginator";
 import toastr from "toastr";
+
+import SearchInput from '../common/tools/SearchInput'
+import Car from "./CarCard";
+import {carService} from '../../services'
+import Paginator from "../common/tools/Paginator";
+
 import withPaging from "../hoc/withPaging";
 import withSearch from "../hoc/withSearch";
 
 
-class Cars extends Component {
+class AllCars extends Component {
     constructor(props) {
         super(props);
 
@@ -75,4 +76,4 @@ class Cars extends Component {
 
 }
 
-export default withPaging(withSearch(Cars));
+export default withPaging(withSearch(AllCars));

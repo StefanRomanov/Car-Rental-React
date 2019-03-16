@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
+import toastr from "toastr";
+
 import Rent from "./Rent";
 import {rentService} from '../../services/'
-import Paginator from "../common/Paginator";
-import toastr from "toastr";
+import Paginator from "../common/tools/Paginator";
 import withPaging from "../hoc/withPaging";
 
 
@@ -11,7 +12,7 @@ class RentsActive extends Component {
         super(props);
         this.state = {
             data: [],
-            loading: true,
+            updated: true,
         };
 
         this.updateList = this.updateList.bind(this);
@@ -19,7 +20,7 @@ class RentsActive extends Component {
 
     updateList() {
         this.setState({
-            loading: true
+            updated: true
         });
     }
 
@@ -28,7 +29,7 @@ class RentsActive extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.loading || this.props.paging.page !== prevProps.paging.page) {
+        if (this.state.updated || this.props.paging.page !== prevProps.paging.page) {
             this.fetchData();
         }
     }
@@ -36,7 +37,7 @@ class RentsActive extends Component {
 
 
     fetchData() {
-        if (this.state.loading) {
+        if (this.state.updated) {
             rentService.activeRents('?page=' + this.props.paging.page)
                 .then(res => {
                     if (res.success === false) {
@@ -45,7 +46,7 @@ class RentsActive extends Component {
                         this.props.updatePages(res.totalPages);
                         this.setState({
                             data: res.content,
-                            loading: false,
+                            updated: false,
                         });
                     }
                 })
@@ -55,7 +56,7 @@ class RentsActive extends Component {
     render() {
         return (
             <div className="container col-lg-8">
-                <div className="my-5 jumbotron text-center">
+                <div className="my-5 text-center">
                     {
                         this.state.data && this.state.data.length
                             ? this.state.data.map(r => <Rent update={this.updateList} key={r.id} data={r}/>)

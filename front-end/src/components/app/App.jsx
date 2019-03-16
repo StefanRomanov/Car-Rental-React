@@ -1,29 +1,32 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {Route, Switch} from "react-router-dom";
 import {BrowserRouter} from "react-router-dom";
 import decode from "jwt-decode";
-import './App.css';
+
 
 import LoginForm from '../auth/LoginForm'
 import RegisterForm from '../auth/RegisterForm'
-import Navigation from "../common/Navigation";
+import Navigation from "../common/navigation/Navigation";
 import Home from "../home/Home";
 import Footer from "../common/Footer";
 import RentsActive from '../rent/RentsActive'
 import RentsPending from "../rent/RentsPending";
-import Cars from "../car/Cars";
+import AllCars from "../car/AllCars";
 import CreateCar from "../car/car-forms/CreateCar";
 import SalesList from "../sale/SalesList";
 import NotFound from "../common/NotFound";
 import CarEdit from "../car/car-forms/CarEdit";
 import CarDelete from "../car/car-forms/CarDelete";
 import CarDetails from "../car/car-details/CarDetails";
-import ReserveCar from "../car/ReserveCar";
+import ReserveCar from "../car/car-details/ReserveCar";
 import Logout from "../common/Logout";
 import {UserProvider, defaultUserState} from "../../context/UserContext";
 import {DatesProvider, defaultDateState} from "../../context/DatesContext";
-import PrivateRoute from "../common/PrivateRoute";
+import PrivateRoute from "../common/routes/PrivateRoute";
 import CarsAvailable from "../car/car-forms/CarsAvailable";
+import GlobalErrorHandler from '../common/GlobalErrorHandler'
+
+import './App.css';
 
 
 class App extends Component {
@@ -82,17 +85,17 @@ class App extends Component {
 
         return (
             <div className="container-fluid app">
-                <BrowserRouter>
-                    <Fragment>
+                <GlobalErrorHandler>
+                    <BrowserRouter>
                         <UserProvider value={{user, updateUser: this.updateUser}}>
                             <DatesProvider value={{dates, updateDates: this.updateDates}}>
-                                <Navigation logout={this.logout}/>
+                                <Navigation/>
                                 <Switch>
                                     <Route exact path={"/"} component={Home}/>
                                     <Route exact path="/register" component={RegisterForm}/>
                                     <Route exact path="/login" component={LoginForm}/>
                                     <Route exact path="/cars/details/:id" component={CarDetails}/>
-                                    <Route exact path="/cars/all" component={Cars}/>
+                                    <Route exact path="/cars/all" component={AllCars}/>
                                     <PrivateRoute allowedRoles={['ADMIN']} exact path="/rents/active"
                                                   component={RentsActive}/>
                                     <PrivateRoute allowedRoles={['ADMIN']} exact path="/rents/pending"
@@ -116,8 +119,8 @@ class App extends Component {
                                 <Footer/>
                             </DatesProvider>
                         </UserProvider>
-                    </Fragment>
-                </BrowserRouter>
+                    </BrowserRouter>
+                </GlobalErrorHandler>
             </div>
         );
     }

@@ -2,7 +2,7 @@ package com.server.services;
 
 import com.server.domain.entities.Car;
 import com.server.domain.entities.Rent;
-import com.server.domain.models.binding.CarCreationBindingModel;
+import com.server.exceptions.CarCreationBindingModel;
 import com.server.domain.models.view.CarViewModel;
 import com.server.domain.models.binding.WithinDatesAndUserNameModel;
 import com.server.exceptions.CarHasActiveRentsException;

@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import {rentService, carService} from '../../services'
-import CarInformation from "./car-details/CarInformation";
 import {Redirect, withRouter} from "react-router";
-import {DatesConsumer} from "../../context/DatesContext";
-import toastr from "toastr";
-import {UserConsumer} from "../../context/UserContext";
 import {Link} from "react-router-dom";
+import toastr from "toastr";
+
+import {rentService, carService} from '../../../services'
+import CarInformation from "./CarInformation";
+import {DatesConsumer} from "../../../context/DatesContext";
+import {UserConsumer} from "../../../context/UserContext";
+
 
 
 class ReserveCar extends Component {

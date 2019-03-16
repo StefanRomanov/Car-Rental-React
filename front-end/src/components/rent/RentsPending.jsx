@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
+import toastr from "toastr";
+
 import Rent from "./Rent";
 import {rentService} from '../../services'
-import Paginator from "../common/Paginator";
-import toastr from "toastr";
+import Paginator from "../common/tools/Paginator";
 import withPaging from "../hoc/withPaging";
+
+
 
 
 class RentsPending extends Component {
@@ -11,8 +14,7 @@ class RentsPending extends Component {
         super(props);
         this.state = {
             data: [],
-            //TODO FIX THAT NAME
-            loading: true
+            updated: true
         };
 
         this.updateList = this.updateList.bind(this);
@@ -20,7 +22,7 @@ class RentsPending extends Component {
 
     updateList() {
         this.setState({
-            loading: true
+            updated: true
         });
     }
 
@@ -29,7 +31,7 @@ class RentsPending extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(this.state.loading || this.props.paging.page !== prevProps.paging.page){
+        if(this.state.updated || this.props.paging.page !== prevProps.paging.page){
             this.fetchData();
         }
     }
@@ -39,11 +41,10 @@ class RentsPending extends Component {
                 if (res.success === false) {
                     toastr.error(res.message);
                 } else {
-
                     this.props.updatePages(res.totalPages);
                     this.setState({
                         data: res.content,
-                        loading: false,
+                        updated: false,
                     });
                 }
             })
@@ -54,7 +55,7 @@ class RentsPending extends Component {
 
         return (
             <div className="container col-lg-8">
-                <div className="my-5 jumbotron text-center">
+                <div className="my-5 text-center">
                     {
                         this.state.data && this.state.data.length
                             ? this.state.data.map(r => <Rent update={this.updateList} key={r.id} data={r}/>)

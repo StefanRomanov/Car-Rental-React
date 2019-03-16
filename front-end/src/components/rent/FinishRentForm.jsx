@@ -1,9 +1,9 @@
-import {Component} from "react";
-import {rentService} from "../../services";
-import React from "react";
+import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import toastr from "toastr";
-import util from "../../services/util"
+
+import {rentService} from "../../services";
+import util from "../../util/util"
 
 class FinishRentForm extends Component {
     constructor(props) {

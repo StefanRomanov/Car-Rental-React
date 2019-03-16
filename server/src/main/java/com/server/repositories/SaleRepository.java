@@ -8,9 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SaleRepository extends JpaRepository<Sale, String> {
-    Page<Sale> findAllByBuyerUsernameAndRentIdContainsOrCarBrandContainsOrCarModelContainsOrderByIssueDate(Pageable pageable,
-                                                                                                         String username,
-                                                                                                         String rentId,
-                                                                                                         String carBrand,
-                                                                                                         String carModel);
+    Page<Sale> findAllByBuyerUsername(Pageable pageable,String username);
+
 }

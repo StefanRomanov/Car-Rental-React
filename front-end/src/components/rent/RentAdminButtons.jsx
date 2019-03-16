@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {rentService} from '../../services/'
 import {withRouter} from "react-router-dom";
 import toastr from "toastr";
 
+import {rentService} from '../../services/'
 
 class RentAdminButtons extends Component {
     constructor(props) {

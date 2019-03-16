@@ -1,20 +1,33 @@
 import React from 'react';
+
 import FinishRentForm from "./FinishRentForm";
 import RentAdminButtons from "./RentAdminButtons";
+import util from "../../util/util";
 
 
 export default (props) => {
         return (
             <div className="card shadow">
                 <div className="card-horizontal">
-                    <div className="card-body">
-                        <div className="card-columns">
-                            <h4>{props.data.car.brand}</h4>
-                            <h4>{props.data.car.model}</h4>
-                            <h5>Start date: {props.data.startDate}</h5>
-                            <h5>Return date: {props.data.endDate}</h5>
-                            <h5>Total cost: ${props.data.totalPrice}</h5>
-                        </div>
+                    <div className="card-body table-responsive justify-content-center">
+                        <table className='w-75 ml-5'>
+                            <tbody>
+                                <tr>
+                                    <th>Brand</th>
+                                    <td>{props.data.car.brand}</td>
+                                    <th>Start date</th>
+                                    <td>{util.formatDate(props.data.startDate)}</td>
+                                    <th>Total price</th>
+                                    <td>${props.data.totalPrice}</td>
+                                </tr>
+                                <tr>
+                                    <th>Model</th>
+                                    <td>{props.data.car.model}</td>
+                                    <th>Return date</th>
+                                    <td>{util.formatDate(props.data.endDate)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                         {
                             !props.data.approved

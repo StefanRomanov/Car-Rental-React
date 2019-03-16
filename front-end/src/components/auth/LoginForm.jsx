@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import toastr from "toastr";
+import {Redirect} from "react-router";
 
 import {authService} from '../../services'
-import Input from "../common/Input";
-import {loginValidation} from '../../config/formValidator'
-import {loginFormHandler} from '../../config/formErrorHandler'
+import Input from "../common/tools/Input";
+import {loginValidation} from '../../util/validation/formValidator'
+import {loginFormHandler} from '../../util/validation/formErrorHandler'
 import {UserConsumer} from '../../context/UserContext'
-import {Redirect} from "react-router";
+
 
 
 class LoginForm extends Component {

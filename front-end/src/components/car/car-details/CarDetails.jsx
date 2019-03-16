@@ -1,11 +1,12 @@
 import React, {Component, Fragment} from 'react';
+import {Link} from "react-router-dom";
+import toastr from 'toastr';
+import {withRouter} from "react-router";
+
 import {carService} from '../../../services'
 import CarInformation from "./CarInformation";
-import {Link} from "react-router-dom";
 import {UserConsumer} from "../../../context/UserContext";
 import CarCheckForm from "../car-forms/CarCheckAvailability";
-import {withRouter} from "react-router";
-import toastr from 'toastr';
 
 
 class CarDetails extends Component {

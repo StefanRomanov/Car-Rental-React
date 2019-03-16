@@ -1,4 +1,4 @@
-package com.server.domain.models.binding;
+package com.server.exceptions;
 
 import org.hibernate.validator.constraints.Length;
 

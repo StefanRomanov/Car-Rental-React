@@ -3,7 +3,7 @@
 
 ## Functionality
 ### Anonymous users
-  - Can browse the entire car fleet, the details of each car and can search for available cars.
+  - Can browse the entire car fleet, the details of each car.
 ### User Login
   - Login in using username and password of already registered user. Usernames are unique identifier.
 ### User Register
@@ -21,10 +21,9 @@
   - Users can check, if the car is available for rent for specified dates.
   - Admins can access edit and delete functionalities
 ### Available cars
-  - User and Anonymous functionality
+  - User functionality
   - Search for all cars which are available within specified dates.
   - Users can access reserve and details functionality from that screen
-  - Anonymous can access details of the car
 ### Reserve car
   - User only functionality
   - Shows details of specified car as well as information about the specified dates and the total price of the rent
